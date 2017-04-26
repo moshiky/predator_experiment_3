@@ -14,13 +14,15 @@ public class Logger {
 
     private String m_infoLogFilePath;
 
-    public Logger (String infoLogFilePath) {
+    public Logger(String infoLogFilePath) {
         try {
             this.m_infoLogFilePath = infoLogFilePath;
 
             // create info file
             FileHandler loggingFile = new FileHandler(this.m_infoLogFilePath);
             loggingFile.close();
+
+            this.info("Logger created");
 
         } catch (SecurityException | IOException e) {
             e.printStackTrace();

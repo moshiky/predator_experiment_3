@@ -8,13 +8,16 @@ import problem.RNG;
 
 /**
  * Java implementation of Sutton's tiles2.C software
+ *
  * @author timbrys
  */
 public class TileCoding {
 
-    
-    int mod(int n, int k) {return (n >= 0) ? n%k : k-1-((-n-1)%k);}
-    
+
+    int mod(int n, int k) {
+        return (n >= 0) ? n % k : k - 1 - ((-n - 1) % k);
+    }
+
     public static int[] GetTiles(
             int num_tilings, // number of tile indices to be returned in tiles       
             double[] variables, // array of variables
@@ -26,9 +29,9 @@ public class TileCoding {
 
         int i, j;
         int[] qstate = new int[variables.length];
-	int[] base = new int[variables.length];
-	int[] coordinates = new int[variables.length + 4];   /* one interval number per rel dimension */
-	int num_coordinates;
+        int[] base = new int[variables.length];
+        int[] coordinates = new int[variables.length + 4];   /* one interval number per rel dimension */
+        int num_coordinates;
 
         if (hash1 == -1) {
             num_coordinates = variables.length + 1;       // no additional hashing corrdinates
@@ -81,7 +84,7 @@ public class TileCoding {
      */
     static boolean first_call = true;
     static int[] rndseq = new int[2048];
-        
+
     private static int hash_coordinates(int[] coordinates, int num_indices, int memory_size) {
         int i, k;
         long index;
@@ -93,7 +96,7 @@ public class TileCoding {
             }
             first_call = false;
         }
-        for (i  = 0; i< num_indices ; i++) {
+        for (i = 0; i < num_indices; i++) {
                     /* add random table offset for this dimension and wrap around */
             index = coordinates[i];
             index += (449 * i);
@@ -105,10 +108,10 @@ public class TileCoding {
             /* add selected random number to sum */
             sum += (long) rndseq[(int) index];
         }
-        index  = (int) (sum % memory_size);
-        while (index< 0){
-            index += memory_size ;
+        index = (int) (sum % memory_size);
+        while (index < 0) {
+            index += memory_size;
         }
-        return (int)index;
+        return (int) index;
     }
 }

@@ -5,7 +5,6 @@
 package problem.predator;
 
 /**
- *
  * @author timbrys
  */
 public enum Direction {
