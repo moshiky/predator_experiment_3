@@ -17,49 +17,54 @@ public class Experiments {
     private static Logger m_logger;
 
     public static void main(String args[]) {
-        
+
         long currentTime = System.currentTimeMillis();
         m_logger = new Logger("logs/info__" + currentTime + ".log");
+        m_logger.initiateLearningCurveDisplay();
 
         //run experiments with one of the possible variants
         //switch (new Integer(args[0])) {
-        switch (8) {
-            case 0:
-                m_logger.info("NoShaping");
-                typeExperiment(AgentType.NoShaping, new int[]{0});
-                break;
-            case 1:
-                m_logger.info("SingleShaping{1}");
-                typeExperiment(AgentType.SingleShaping, new int[]{1});
-                break;
-            case 2:
-                m_logger.info("SingleShaping{2}");
-                typeExperiment(AgentType.SingleShaping, new int[]{2});
-                break;
-            case 3:
-                m_logger.info("SingleShaping{3}");
-                typeExperiment(AgentType.SingleShaping, new int[]{3});
-                break;
-            case 4:
-                m_logger.info("Linear");
-                typeExperiment(AgentType.Linear, new int[]{1, 2, 3});
-                break;
-            case 5:
-                m_logger.info("BestLinear");
-                typeExperiment(AgentType.BestLinear, new int[]{1, 2, 3});
-                break;
-            case 6:
-                m_logger.info("ROS");
-                typeExperiment(AgentType.ROS, new int[]{1, 2, 3});
-                break;
-            case 7:
-                m_logger.info("AOS");
-                typeExperiment(AgentType.AOS, new int[]{1, 2, 3});
-                break;
-            case 8:
-                m_logger.info("Abstraction");
-                typeExperiment(AgentType.Abstraction, new int[]{0});
-                break;
+        int[] agentTypeToRun = new int[]{0, 1, 4, 6, 7, 8};
+
+        for (int agentType : agentTypeToRun) {
+            switch (agentType) {
+                case 0:
+                    m_logger.setActiveSeries("NoShaping");
+                    typeExperiment(AgentType.NoShaping, new int[]{0});
+                    break;
+                case 1:
+                    m_logger.setActiveSeries("SingleShaping{1}");
+                    typeExperiment(AgentType.SingleShaping, new int[]{1});
+                    break;
+                case 2:
+                    m_logger.setActiveSeries("SingleShaping{2}");
+                    typeExperiment(AgentType.SingleShaping, new int[]{2});
+                    break;
+                case 3:
+                    m_logger.setActiveSeries("SingleShaping{3}");
+                    typeExperiment(AgentType.SingleShaping, new int[]{3});
+                    break;
+                case 4:
+                    m_logger.setActiveSeries("Linear");
+                    typeExperiment(AgentType.Linear, new int[]{1, 2, 3});
+                    break;
+                case 5:
+                    m_logger.setActiveSeries("BestLinear");
+                    typeExperiment(AgentType.BestLinear, new int[]{1, 2, 3});
+                    break;
+                case 6:
+                    m_logger.setActiveSeries("ROS");
+                    typeExperiment(AgentType.ROS, new int[]{1, 2, 3});
+                    break;
+                case 7:
+                    m_logger.setActiveSeries("AOS");
+                    typeExperiment(AgentType.AOS, new int[]{1, 2, 3});
+                    break;
+                case 8:
+                    m_logger.setActiveSeries("Abstraction");
+                    typeExperiment(AgentType.Abstraction, new int[]{0});
+                    break;
+            }
         }
     }
 
@@ -74,6 +79,7 @@ public class Experiments {
                 p.reset();
                 results[ex][ep] = p.episode();
                 m_logger.info("ex" + ex + "ep" + ep + ": " + results[ex][ep]);
+                m_logger.addEpisodeResult(results[ex][ep]);
             }
         }
         double[] means = means(results);
