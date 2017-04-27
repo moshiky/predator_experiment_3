@@ -18,8 +18,9 @@ package problem.learning;
  * ROS: agent learning the base reward + a number of shapings in parallel, using random objective selection to combine them
  * AOS: agent learning the base reward + a number of shapings in parallel, using adaptive objective selection to combine them
  * Abstraction: agent learning the base reward, but the state representation is based on user-defined characteristics.
+ * Similarities: agent learning the base reward, but Q value updates are propagate to 'similar' states according to user specification.
  * */
 public enum AgentType {
     Random, NoShaping, SingleShaping, Linear, BestLinear, ROS, AOS,
-    Abstraction
+    Abstraction, Similarities
 }

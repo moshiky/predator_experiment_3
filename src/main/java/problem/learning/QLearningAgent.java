@@ -5,14 +5,33 @@
 package problem.learning;
 
 import problem.RNG;
+import problem.predator.SimilarityManager;
+import problem.predator.SimilarityRecord;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * @author timbrys
  */
 public abstract class QLearningAgent extends LearningAgent {
 
+    private double[][] m_similarityFactor;
+
     public QLearningAgent(Problem prob, AgentType type, int[] objectivesToUse) {
         super(prob, type, objectivesToUse);
+
+        if (AgentType.Similarities == type) {
+            this.resetSimilarityFactorArray();
+        }
+    }
+
+    private void resetSimilarityFactorArray() {
+        this.m_similarityFactor = new double[nrObjectives][maxNrTiles];
+        for (double[] row : this.m_similarityFactor) {
+            Arrays.fill(row, 0);
+        }
     }
 
     public int act() {
@@ -99,6 +118,30 @@ public abstract class QLearningAgent extends LearningAgent {
             }
         }
 
+        // update similar state-action pairs if needed
+        if (AgentType.Similarities == type) {
+            // get similar states
+            ArrayList<SimilarityRecord> similarityRecords = SimilarityManager.getSimilarityRecords(state, prevAction);
+
+            // gather all update factors
+            double[] similarityFactors = new double[maxNrTiles];
+            Arrays.fill(similarityFactors, 0);
+
+            for (SimilarityRecord similarityRecord : similarityRecords) {
+                int[] stateFas = tileCoding(similarityRecord.getState(), similarityRecord.getAction());
+                for (int tile : stateFas) {
+                    similarityFactors[tile] = Math.max(similarityFactors[tile], similarityRecord.getSimilarityFactor());
+                }
+            }
+
+            // update according to similarity factors
+            for (int o = 0; o < nrObjectives; o++) {
+                for (int i = 0; i < theta[o].length; i++) {
+                    theta[o][i] += alpha * delta[o] * similarityFactors[i];
+                }
+            }
+        }
+
         //action selection
         int action = 0;
         //greedy
@@ -160,6 +203,5 @@ public abstract class QLearningAgent extends LearningAgent {
                 es[o][prevFa[i]] = 1;
             }
         }
-
     }
 }

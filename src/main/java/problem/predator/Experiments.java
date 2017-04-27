@@ -23,8 +23,7 @@ public class Experiments {
         m_logger.initiateLearningCurveDisplay();
 
         //run experiments with one of the possible variants
-        //switch (new Integer(args[0])) {
-        int[] agentTypeToRun = new int[]{0, 1, 4, 6, 7, 8};
+        int[] agentTypeToRun = new int[]{0, 1, 2, 3, 4, 5, 6, 7, 8};
 
         for (int agentType : agentTypeToRun) {
             switch (agentType) {
@@ -63,6 +62,10 @@ public class Experiments {
                 case 8:
                     m_logger.setActiveSeries("Abstraction");
                     typeExperiment(AgentType.Abstraction, new int[]{0});
+                    break;
+                case 9:
+                    m_logger.setActiveSeries("Similarities");
+                    typeExperiment(AgentType.Similarities, new int[]{0});
                     break;
             }
         }
