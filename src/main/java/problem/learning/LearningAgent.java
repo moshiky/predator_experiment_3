@@ -296,4 +296,14 @@ public abstract class LearningAgent {
 
         return TileCoding.GetTiles(nrTiles, state, maxNrTiles, extra1, extra2, extra3);
     }
+
+    protected String getStateActionStringKey(double[] state, int action) {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (double val : state) {
+            stringBuilder.append(val);
+            stringBuilder.append('_');
+        }
+        stringBuilder.append(action);
+        return stringBuilder.toString();
+    }
 }
