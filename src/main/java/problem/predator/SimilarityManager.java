@@ -19,9 +19,10 @@ public class SimilarityManager {
      *               1: DOWN
      *               2: LEFT
      *               3: RIGHT
+     *               4: Stay (??)
      * @return
      */
-    public static ArrayList<SimilarityRecord> getSimilarityRecords(double[] state, int action) throws Exception {
+    public static ArrayList<SimilarityRecord> getSimilarityRecords(double[] state, int action) {
         ArrayList<SimilarityRecord> similarityRecords = new ArrayList<>();
 
         // *** YOUR CODE HERE **********************************************************************
@@ -43,7 +44,7 @@ public class SimilarityManager {
             newState[3] *= -1;
             similarityRecords.add(new SimilarityRecord(newState, action, 1));
         }
-        else {
+        else if (action < 4) {
             // means it LEFT or RIGHT
             newState[0] *= -1;
             newState[2] *= -1;
@@ -57,78 +58,111 @@ public class SimilarityManager {
             newState[2] *= -1;
             similarityRecords.add(new SimilarityRecord(newState, action, 1));
         }
+        else {
+            // means it STAY
+            newState[0] *= -1;
+            newState[2] *= -1;
+            similarityRecords.add(new SimilarityRecord(newState, action, 1));
+
+            newState[1] *= -1;
+            newState[3] *= -1;
+            similarityRecords.add(new SimilarityRecord(newState, action, 1));
+
+            newState[0] *= -1;
+            newState[2] *= -1;
+            similarityRecords.add(new SimilarityRecord(newState, action, 1));
+        }
 
         // (x, y) -> (y, x)
         newState = state.clone();
-        swapIndexes(0, 1, newState, false, false);
-        swapIndexes(2, 3, newState, false, false);
+        swapValues(0, 1, newState, false, false);
+        swapValues(2, 3, newState, false, false);
 
-        similarityRecords.add(new SimilarityRecord(newState, 3-action, 1));
+        if (action < 4) {
+            similarityRecords.add(new SimilarityRecord(newState, 3 - action, 1));
+        }
+        else {
+            similarityRecords.add(new SimilarityRecord(newState, action, 1));
+        }
+
 
         // (x, y) -> (-y, -x)
         newState = state.clone();
-        swapIndexes(0, 1, newState, true, true);
-        swapIndexes(2, 3, newState, true, true);
+        swapValues(0, 1, newState, true, true);
+        swapValues(2, 3, newState, true, true);
 
         if (1 == action || 3 == action) {
             // means it DOWN or RIGHT
             similarityRecords.add(new SimilarityRecord(newState, 4-action, 1));
         }
-        else {
+        else if (0 == action || 2 == action) {
             // means it UP or LEFT
             similarityRecords.add(new SimilarityRecord(newState, 2-action, 1));
+        }
+        else {
+            // means it STAY
+            similarityRecords.add(new SimilarityRecord(newState, action, 1));
         }
 
         // (x, y) -> (-y, x)
         newState = state.clone();
-        swapIndexes(0, 1, newState, false, true);
-        swapIndexes(2, 3, newState, false, true);
+        swapValues(0, 1, newState, false, true);
+        swapValues(2, 3, newState, false, true);
 
         if (0 == action) {
             // UP --> LEFT
             similarityRecords.add(new SimilarityRecord(newState, 2, 1));
         }
-        else if (1 == action){
+        else if (1 == action) {
             // DOWN --> RIGHT
             similarityRecords.add(new SimilarityRecord(newState, 3, 1));
         }
-        else if (2 == action){
+        else if (2 == action) {
             // LEFT --> DOWN
             similarityRecords.add(new SimilarityRecord(newState, 1, 1));
         }
-        else {
+        else if (3 == action) {
             // RIGHT --> UP
             similarityRecords.add(new SimilarityRecord(newState, 0, 1));
+        }
+        else {
+            // means it STAY
+            similarityRecords.add(new SimilarityRecord(newState, action, 1));
         }
 
         // (x, y) -> (-y, x)
         newState = state.clone();
-        swapIndexes(0, 1, newState, true, false);
-        swapIndexes(2, 3, newState, true, false);
+        swapValues(0, 1, newState, true, false);
+        swapValues(2, 3, newState, true, false);
 
         if (0 == action) {
             // UP --> RIGHT
             similarityRecords.add(new SimilarityRecord(newState, 3, 1));
         }
-        else if (1 == action){
+        else if (1 == action) {
             // DOWN --> LEFT
             similarityRecords.add(new SimilarityRecord(newState, 2, 1));
         }
-        else if (2 == action){
+        else if (2 == action) {
             // LEFT --> UP
             similarityRecords.add(new SimilarityRecord(newState, 0, 1));
         }
-        else {
+        else if (3 == action) {
             // RIGHT --> DOWN
             similarityRecords.add(new SimilarityRecord(newState, 1, 1));
         }
+        else {
+            // means it STAY
+            similarityRecords.add(new SimilarityRecord(newState, action, 1));
+        }
+
 
         // *** END OF YOUR CODE ********************************************************************
 
         return similarityRecords;
     }
 
-    private static void swapIndexes(int firstIndex, int secondIndex, double[] arr, boolean flipFirst, boolean flipSecond) {
+    private static void swapValues(int firstIndex, int secondIndex, double[] arr, boolean flipFirst, boolean flipSecond) {
         double tmp = arr[firstIndex];
         arr[firstIndex] = arr[secondIndex] * (flipSecond? -1 : 1);
         arr[secondIndex] = tmp * (flipFirst? -1 : 1);

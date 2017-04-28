@@ -23,7 +23,8 @@ public class Experiments {
         m_logger.initiateLearningCurveDisplay();
 
         //run experiments with one of the possible variants
-        int[] agentTypeToRun = new int[]{0, 1, 2, 3, 4, 5, 6, 7, 8};
+        //int[] agentTypeToRun = new int[]{0, 1, 2, 3, 4, 5, 6, 7, 8};
+        int[] agentTypeToRun = new int[]{ 9};
 
         for (int agentType : agentTypeToRun) {
             switch (agentType) {
