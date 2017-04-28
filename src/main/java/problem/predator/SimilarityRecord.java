@@ -4,11 +4,11 @@ package problem.predator;
  * Created by Dev on 27/04/2017.
  */
 public class SimilarityRecord {
-    private double[] m_state;
+    private int[] m_state;
     private int m_action;
     private double m_similarityFactor;
 
-    public SimilarityRecord(double[] state, int action, double similarityFactor) {
+    public SimilarityRecord(int[] state, int action, double similarityFactor) {
         this.m_state = state;
         this.m_action = action;
 
@@ -23,7 +23,7 @@ public class SimilarityRecord {
         this.m_similarityFactor = similarityFactor;
     }
 
-    public double[] getState() { return this.m_state; }
+    public int[] getState() { return this.m_state; }
 
     public int getAction() { return this.m_action; }
 

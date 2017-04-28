@@ -83,6 +83,10 @@ public class Prey extends Animal {
         return new double[0];
     }
 
+    public int[] getIntState() {
+        return new int[0];
+    }
+
     @Override
     public int getStateSize() {
         return 0;

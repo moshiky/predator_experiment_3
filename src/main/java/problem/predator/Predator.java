@@ -65,6 +65,23 @@ public class Predator extends Animal {
         return state;
     }
 
+    public int[] getIntState() {
+        Animal[] predators = pw.getPredators();
+        Animal[] preys = pw.getPreys();
+        int[] state = new int[4];
+        for (int i = 0; i < predators.length; i++) {
+            if (predators[i] != this) {
+                state[0] = x - predators[i].x;
+                state[1] = y - predators[i].y;
+            }
+        }
+
+        state[2] = x - preys[0].x;
+        state[3] = y - preys[0].y;
+
+        return state;
+    }
+
     //Euclidean distance
     public double distance(Animal a, Animal b) {
         return Math.sqrt((a.x - b.x) * (a.x - b.x) + (a.y - b.y) * (a.y - b.y));

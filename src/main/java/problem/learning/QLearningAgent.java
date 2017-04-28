@@ -10,30 +10,28 @@ import problem.predator.SimilarityRecord;
 import sun.management.Agent;
 
 import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author timbrys
  */
 public abstract class QLearningAgent extends LearningAgent {
 
-    private double[] m_previousState;
-    private Map<String, Double> m_qTable;
+    private int[] m_previousState;
+    private DoubleHashTable<StateAction> m_qTable;
 
     public QLearningAgent(Problem prob, AgentType type, int[] objectivesToUse) {
         super(prob, type, objectivesToUse);
 
         if (AgentType.Similarities == type) {
-            this.m_qTable = new HashMap<>();
+            this.m_qTable = new DoubleHashTable<>(11567205);
+            this.m_qTable.reset();
         }
     }
 
     public int act() {
         if (AgentType.Similarities == type) {
-            this.m_previousState = getState();
+            this.m_previousState = getIntState();
         }
         else {
             //makes sure in first iteration that the previous potential and activated tiles are initialized
@@ -55,13 +53,13 @@ public abstract class QLearningAgent extends LearningAgent {
         return prevAction;
     }
 
-    private Double getQValue(String stateActionKey) {
+    /*private Double getQValue(String stateActionKey) {
         if (!this.m_qTable.containsKey(stateActionKey)) {
             this.m_qTable.put(stateActionKey, 0.0);
         }
 
         return this.m_qTable.get(stateActionKey);
-    }
+    }*/
 
     //Q(lambda) logic
     public void reward(double reward) {
@@ -70,10 +68,10 @@ public abstract class QLearningAgent extends LearningAgent {
             // find best action
             Double bestNextQValue = Double.MAX_VALUE * -1;
             ArrayList<Integer> bestActions = new ArrayList<>();
-            double[] currentState = getState();
+            int[] currentState = getIntState();
 
             for (int i = 0 ; i < prob.getNumActions() ; i++) {
-                Double currentStateQValue = this.getQValue(getStateActionStringKey(currentState, i));
+                Double currentStateQValue = this.m_qTable.get(getStateActionStringKey(currentState, i));
                 if (currentStateQValue >= bestNextQValue) {
                     if (currentStateQValue > bestNextQValue) {
                         bestNextQValue = currentStateQValue;
@@ -84,10 +82,10 @@ public abstract class QLearningAgent extends LearningAgent {
             }
 
             // simplified q table, no tile coding
-            String previousStateActionKey = getStateActionStringKey(this.m_previousState, this.prevAction);
+            StateAction previousStateActionKey = getStateActionStringKey(this.m_previousState, this.prevAction);
 
             // calculate delta
-            Double previousQValue = this.getQValue(previousStateActionKey);
+            Double previousQValue = this.m_qTable.get(previousStateActionKey);
             double delta = reward + gamma * bestNextQValue - previousQValue;
 
             // get similar state-action records
@@ -97,8 +95,8 @@ public abstract class QLearningAgent extends LearningAgent {
 
             // update all relevant state-action records in the Q table
             for (SimilarityRecord record : similarityRecords) {
-                String stateActionKey = getStateActionStringKey(record.getState(), record.getAction());
-                previousQValue = this.getQValue(stateActionKey);
+                StateAction stateActionKey = getStateActionStringKey(record.getState(), record.getAction());
+                previousQValue = this.m_qTable.get(stateActionKey);
                 this.m_qTable.put(stateActionKey, previousQValue + alpha * delta * record.getSimilarityFactor());
             }
 

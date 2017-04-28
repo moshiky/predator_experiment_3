@@ -22,11 +22,11 @@ public class SimilarityManager {
      *               4: Stay (??)
      * @return
      */
-    public static ArrayList<SimilarityRecord> getSimilarityRecords(double[] state, int action) {
+    public static ArrayList<SimilarityRecord> getSimilarityRecords(int[] state, int action) {
         ArrayList<SimilarityRecord> similarityRecords = new ArrayList<>();
 
         // *** YOUR CODE HERE **********************************************************************
-        double[] newState;
+        int[] newState;
 
         // reflection
         newState = state.clone();
@@ -162,8 +162,8 @@ public class SimilarityManager {
         return similarityRecords;
     }
 
-    private static void swapValues(int firstIndex, int secondIndex, double[] arr, boolean flipFirst, boolean flipSecond) {
-        double tmp = arr[firstIndex];
+    private static void swapValues(int firstIndex, int secondIndex, int[] arr, boolean flipFirst, boolean flipSecond) {
+        int tmp = arr[firstIndex];
         arr[firstIndex] = arr[secondIndex] * (flipSecond? -1 : 1);
         arr[secondIndex] = tmp * (flipFirst? -1 : 1);
     }
