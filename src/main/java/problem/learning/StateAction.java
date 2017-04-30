@@ -33,4 +33,8 @@ public class StateAction {
         int result = (x1 + 19) * 1 + (x2 + 19) * 39 + (x3 + 19) * 1521 + (x4 + 19) * 59319 + x5 * 2313441;
         return result;
     }
+
+    public State getState() { return state; }
+
+    public int getAction() { return action; }
 }

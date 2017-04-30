@@ -36,10 +36,12 @@ public class SimilarityManager {
             newState[3] *= -1;
             similarityRecords.add(new SimilarityRecord(newState, 1-action, 1));
 
+            newState = newState.clone();
             newState[0] *= -1;
             newState[2] *= -1;
             similarityRecords.add(new SimilarityRecord(newState, 1-action, 1));
 
+            newState = newState.clone();
             newState[1] *= -1;
             newState[3] *= -1;
             similarityRecords.add(new SimilarityRecord(newState, action, 1));
@@ -50,10 +52,12 @@ public class SimilarityManager {
             newState[2] *= -1;
             similarityRecords.add(new SimilarityRecord(newState, 5-action, 1));
 
+            newState = newState.clone();
             newState[1] *= -1;
             newState[3] *= -1;
             similarityRecords.add(new SimilarityRecord(newState, 5-action, 1));
 
+            newState = newState.clone();
             newState[0] *= -1;
             newState[2] *= -1;
             similarityRecords.add(new SimilarityRecord(newState, action, 1));
@@ -64,10 +68,12 @@ public class SimilarityManager {
             newState[2] *= -1;
             similarityRecords.add(new SimilarityRecord(newState, action, 1));
 
+            newState = newState.clone();
             newState[1] *= -1;
             newState[3] *= -1;
             similarityRecords.add(new SimilarityRecord(newState, action, 1));
 
+            newState = newState.clone();
             newState[0] *= -1;
             newState[2] *= -1;
             similarityRecords.add(new SimilarityRecord(newState, action, 1));

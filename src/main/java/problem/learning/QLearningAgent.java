@@ -7,9 +7,6 @@ package problem.learning;
 import problem.RNG;
 import problem.predator.SimilarityManager;
 import problem.predator.SimilarityRecord;
-import sun.management.Agent;
-
-import java.lang.reflect.Array;
 import java.util.*;
 
 /**
@@ -100,15 +97,13 @@ public abstract class QLearningAgent extends LearningAgent {
                 this.m_qTable.put(stateActionKey, previousQValue + alpha * delta * record.getSimilarityFactor());
             }
 
-            // update previous state
-            this.m_previousState = currentState;
-
             // select next action
             if (RNG.randomDouble() > epsilon) {
                 // select greedily
                 prevAction = bestActions.get(RNG.randomInt(bestActions.size()));
             }
             else {
+                // select random action
                 prevAction = RNG.randomInt(prob.getNumActions());
             }
         }
