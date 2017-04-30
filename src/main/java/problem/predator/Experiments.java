@@ -24,12 +24,12 @@ public class Experiments {
 
         //run experiments with one of the possible variants
         //int[] agentTypeToRun = new int[]{0, 1, 2, 3, 4, 5, 6, 7, 8};
-        int[] agentTypeToRun = new int[]{ 9};
+        int[] agentTypeToRun = new int[]{9, 10};
 
         for (int agentType : agentTypeToRun) {
             switch (agentType) {
                 case 0:
-                    m_logger.setActiveSeries("NoShaping");
+                    m_logger.setActiveSeries("NoShaping_WithTileCoding");
                     typeExperiment(AgentType.NoShaping, new int[]{0});
                     break;
                 case 1:
@@ -61,10 +61,14 @@ public class Experiments {
                     typeExperiment(AgentType.AOS, new int[]{1, 2, 3});
                     break;
                 case 8:
-                    m_logger.setActiveSeries("Abstraction");
+                    m_logger.setActiveSeries("Abstraction_WithTileCoding");
                     typeExperiment(AgentType.Abstraction, new int[]{0});
                     break;
                 case 9:
+                    m_logger.setActiveSeries("BasicQLearning");
+                    typeExperiment(AgentType.BasicQLearning, new int[]{0});
+                    break;
+                case 10:
                     m_logger.setActiveSeries("Similarities");
                     typeExperiment(AgentType.Similarities, new int[]{0});
                     break;
@@ -74,7 +78,7 @@ public class Experiments {
 
     public static double typeExperiment(AgentType type, int[] objectives) {
         int experiments = 1;
-        int episodes = 1000;
+        int episodes = 5000;
         double[][] results = new double[experiments][episodes];
         for (int ex = 0; ex < experiments; ex++) {
             PredatorWorld p = new PredatorWorld(20, 2, type, objectives);

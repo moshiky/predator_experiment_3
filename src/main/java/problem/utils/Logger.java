@@ -59,7 +59,7 @@ public class Logger {
 
         this.m_curveDisplay.add(this.m_learningCurveDisplay.getPanel());
         this.m_curveDisplay.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        this.m_curveDisplay.setSize(2000, 1200);
+        this.m_curveDisplay.setSize(1400, 800);
         this.m_curveDisplay.setLocationRelativeTo(null);
         this.m_curveDisplay.setVisible(true);
     }

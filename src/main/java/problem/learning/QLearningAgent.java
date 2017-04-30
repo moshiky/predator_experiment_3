@@ -20,14 +20,14 @@ public abstract class QLearningAgent extends LearningAgent {
     public QLearningAgent(Problem prob, AgentType type, int[] objectivesToUse) {
         super(prob, type, objectivesToUse);
 
-        if (AgentType.Similarities == type) {
+        if (AgentType.BasicQLearning == type || AgentType.Similarities == type) {
             this.m_qTable = new DoubleHashTable<>(11567205);
             this.m_qTable.reset();
         }
     }
 
     public int act() {
-        if (AgentType.Similarities == type) {
+        if (AgentType.BasicQLearning == type || AgentType.Similarities == type) {
             this.m_previousState = getIntState();
         }
         else {
@@ -61,7 +61,7 @@ public abstract class QLearningAgent extends LearningAgent {
     //Q(lambda) logic
     public void reward(double reward) {
 
-        if (AgentType.Similarities == type) {
+        if (AgentType.BasicQLearning == type || AgentType.Similarities == type) {
             // find best action
             Double bestNextQValue = Double.MAX_VALUE * -1;
             ArrayList<Integer> bestActions = new ArrayList<>();
@@ -85,16 +85,21 @@ public abstract class QLearningAgent extends LearningAgent {
             Double previousQValue = this.m_qTable.get(previousStateActionKey);
             double delta = reward + gamma * bestNextQValue - previousQValue;
 
-            // get similar state-action records
-            ArrayList<SimilarityRecord> similarityRecords =
-                    SimilarityManager.getSimilarityRecords(this.m_previousState, prevAction);
-            similarityRecords.add(new SimilarityRecord(this.m_previousState, prevAction, 1));
+            // update Q(s,a)
+            this.m_qTable.put(previousStateActionKey, previousQValue + alpha * delta);
 
-            // update all relevant state-action records in the Q table
-            for (SimilarityRecord record : similarityRecords) {
-                StateAction stateActionKey = getStateActionStringKey(record.getState(), record.getAction());
-                previousQValue = this.m_qTable.get(stateActionKey);
-                this.m_qTable.put(stateActionKey, previousQValue + alpha * delta * record.getSimilarityFactor());
+
+            // update similar state-action pairs in case agent type is Similarities
+            if (AgentType.Similarities == type) {
+                ArrayList<SimilarityRecord> similarityRecords =
+                        SimilarityManager.getSimilarityRecords(this.m_previousState, prevAction);
+
+                // update all relevant state-action records in the Q table
+                for (SimilarityRecord record : similarityRecords) {
+                    StateAction stateActionKey = getStateActionStringKey(record.getState(), record.getAction());
+                    previousQValue = this.m_qTable.get(stateActionKey);
+                    this.m_qTable.put(stateActionKey, previousQValue + alpha * delta * record.getSimilarityFactor());
+                }
             }
 
             // select next action
