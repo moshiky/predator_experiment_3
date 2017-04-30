@@ -24,7 +24,7 @@ public class Experiments {
 
         //run experiments with one of the possible variants
         //int[] agentTypeToRun = new int[]{0, 1, 2, 3, 4, 5, 6, 7, 8};
-        int[] agentTypeToRun = new int[]{9, 10};
+        int[] agentTypeToRun = new int[]{0, 11};
 
         for (int agentType : agentTypeToRun) {
             switch (agentType) {
@@ -82,7 +82,7 @@ public class Experiments {
 
     public static double typeExperiment(AgentType type, int[] objectives) {
         int experiments = 1;
-        int episodes = 5000;
+        int episodes = 1000;
         double[][] results = new double[experiments][episodes];
         for (int ex = 0; ex < experiments; ex++) {
             PredatorWorld p = new PredatorWorld(20, 2, type, objectives);

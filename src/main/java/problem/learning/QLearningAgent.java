@@ -234,7 +234,7 @@ public abstract class QLearningAgent extends LearningAgent {
             //store previous potentials
             if (type == AgentType.Linear || type == AgentType.BestLinear) {
                 prevPot[0] = scalarizedShaping();
-            } else {
+            } else if (type != AgentType.RewardShaping) {
                 for (int o = 0; o < nrObjectives; o++) {
                     prevPot[o] = shaping(objectivesToUse[o]);
                 }

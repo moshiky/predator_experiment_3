@@ -31,6 +31,12 @@ public class ShapingManager {
 
         // *** YOUR CODE HERE **********************************************************************
 
+        rewardShaping = 38;
+
+        for (Animal prey : preys) {
+            rewardShaping -= Math.abs(this.m_caller.x - prey.x) + Math.abs(this.m_caller.y - prey.y);
+        }
+
         // *** END OF YOUR CODE ********************************************************************
 
         return rewardShaping;
