@@ -72,6 +72,10 @@ public class Experiments {
                     m_logger.setActiveSeries("Similarities");
                     typeExperiment(AgentType.Similarities, new int[]{0});
                     break;
+                case 11:
+                    m_logger.setActiveSeries("RewardShaping");
+                    typeExperiment(AgentType.RewardShaping, new int[]{4});
+                    break;
             }
         }
     }

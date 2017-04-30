@@ -32,7 +32,7 @@ public abstract class QLearningAgent extends LearningAgent {
         }
         else {
             //makes sure in first iteration that the previous potential and activated tiles are initialized
-            if (prevPot == null) {
+            if (prevPot == null && AgentType.RewardShaping != type) {
                 prevPot = new double[nrObjectives];
                 if (type == AgentType.Linear || type == AgentType.BestLinear) {
                     prevPot[0] = scalarizedShaping();
@@ -113,21 +113,30 @@ public abstract class QLearningAgent extends LearningAgent {
             }
         }
         else {
-            //holds potential for each shaping
-            double[] curPot = new double[nrObjectives];
-            if (type == AgentType.Linear || type == AgentType.BestLinear) {
-                curPot[0] = scalarizedShaping();
-            } else {
+            double[] delta = new double[nrObjectives];
+
+            if (type != AgentType.RewardShaping) {
+                //holds potential for each shaping
+                double[] curPot = new double[nrObjectives];
+
+                if (type == AgentType.Linear || type == AgentType.BestLinear) {
+                    curPot[0] = scalarizedShaping();
+                }
+                else {
+                    for (int o = 0; o < nrObjectives; o++) {
+                        curPot[o] = shaping(objectivesToUse[o]);
+                    }
+                }
+
+                //applies each time a different shaping to the base reward
+                //delta = r + gamma F(s') - F(s)
                 for (int o = 0; o < nrObjectives; o++) {
-                    curPot[o] = shaping(objectivesToUse[o]);
+                    delta[o] = reward + gamma * curPot[o] - prevPot[o];
                 }
             }
-
-            //applies each time a different shaping to the base reward
-            double[] delta = new double[nrObjectives];
-            //delta = r + gamma F(s') - F(s)
-            for (int o = 0; o < nrObjectives; o++) {
-                delta[o] = reward + gamma * curPot[o] - prevPot[o];
+            else {
+                // agent type is RewardShaping, so there is just one objective, which is user defined
+                delta[0] = reward + shaping(objectivesToUse[0]);
             }
 
             //delta = r + gamma F(s') - F(s) - Q(s,a)

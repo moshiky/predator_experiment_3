@@ -13,12 +13,14 @@ public class Predator extends Animal {
 
     private PredatorWorld pw;
     private int size;
+    private ShapingManager m_shapingManager;
 
     public Predator(PredatorWorld pw, AgentType type, int[] objectives, int size, int x, int y) {
         super(pw, type, objectives, x, y);
         predator = true;
         this.size = size;
         this.pw = pw;
+        this.m_shapingManager = new ShapingManager(this.pw, this);
 
         maxNrTiles = 4096;
         nrTiles = 32;
@@ -100,6 +102,10 @@ public class Predator extends Animal {
         } else if (s == 3) {
             //separation
             return distanceToPartner(predators);
+        }
+        else if (s == 4) {
+            // user defined
+            return this.m_shapingManager.getShapingReward();
         }
         return 0.0;
     }
