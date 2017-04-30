@@ -34,7 +34,4 @@ public class StateAction {
         return result;
     }
 
-    public State getState() { return state; }
-
-    public int getAction() { return action; }
 }
