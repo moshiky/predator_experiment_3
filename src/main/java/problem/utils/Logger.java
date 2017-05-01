@@ -6,10 +6,11 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
+import java.text.SimpleDateFormat;
 import java.util.logging.FileHandler;
 
 /**
- * Created by Dev on 19/04/2017.
+ * Created by moshecohen on 19/04/2017.
  */
 public class Logger {
 
@@ -43,10 +44,12 @@ public class Logger {
     }
 
     public void info(String message, boolean shouldPrint) {
+        String timeStamp = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new java.util.Date());
+        String msg = String.format("[%s] >> %s", timeStamp, message);
         try {
-            Files.write(Paths.get(this.m_infoLogFilePath), (message + '\n').getBytes(), StandardOpenOption.APPEND);
+            Files.write(Paths.get(this.m_infoLogFilePath), (msg + '\n').getBytes(), StandardOpenOption.APPEND);
             if (shouldPrint) {
-                System.out.println(message);
+                System.out.println(msg);
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -71,5 +74,9 @@ public class Logger {
     public void setActiveSeries(String seriesName) {
         this.info(seriesName);
         this.m_learningCurveDisplay.setActiveSeries(seriesName);
+    }
+
+    public void addSeriesTime(long timeInSecs) {
+        this.m_learningCurveDisplay.addSeriesTime(timeInSecs);
     }
 }

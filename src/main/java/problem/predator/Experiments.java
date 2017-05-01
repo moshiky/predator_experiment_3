@@ -84,6 +84,8 @@ public class Experiments {
         int experiments = 1;
         int episodes = 1000;
         double[][] results = new double[experiments][episodes];
+        long start_time = System.currentTimeMillis();
+
         for (int ex = 0; ex < experiments; ex++) {
             PredatorWorld p = new PredatorWorld(20, 2, type, objectives);
             m_logger.info("=== Experiment #" + ex + " ===");
@@ -94,6 +96,10 @@ public class Experiments {
                 m_logger.addEpisodeResult(results[ex][ep]);
             }
         }
+        long totalTime = (System.currentTimeMillis() - start_time) / 1000;
+        m_logger.info("total time: " + totalTime + " secs");
+        m_logger.addSeriesTime(totalTime);
+
         double[] means = means(results);
         m_logger.info(">> Episodes mean: " + Arrays.toString(means));
         m_logger.info(">> Experiments mean: " + mean(means));

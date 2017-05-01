@@ -3,14 +3,19 @@ package problem.utils;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.annotations.XYPointerAnnotation;
+import org.jfree.chart.plot.XYPlot;
 import org.jfree.data.xy.DefaultXYDataset;
+import org.jfree.ui.TextAnchor;
+import problem.RNG;
 
 import javax.swing.*;
+import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by Dev on 27/04/2017.
+ * Created by moshecohen on 27/04/2017.
  */
 public class LearningCurveDisplay {
 
@@ -20,11 +25,11 @@ public class LearningCurveDisplay {
     private JFreeChart scatterChart;
     private DefaultXYDataset dataset;
 
-    //private double[][] scatterData;
     private Map<String, Double> m_tempResultSum;
     private Map<String, Integer> m_episodeCounter;
     private Map<String, Double[][]> m_seriesData;
     private String m_activeSeriesName;
+
 
     public LearningCurveDisplay() {
 
@@ -42,6 +47,7 @@ public class LearningCurveDisplay {
                         "episode (/" + UPDATE_INTERVAL + ")",
                         "rounds", dataset
                 );
+
         ChartPanel chartPanel = new ChartPanel(scatterChart);
 
         panel.add(chartPanel);
@@ -99,5 +105,24 @@ public class LearningCurveDisplay {
             this.m_tempResultSum.put(seriesName, 0.0);
             this.m_seriesData.put(seriesName, new Double[2][0]);
         }
+    }
+
+    public void addSeriesTime(long timeInSecs) {
+        Double[][] seriesData = this.m_seriesData.get(this.m_activeSeriesName);
+        final XYPlot plot = scatterChart.getXYPlot();
+
+        double xValue = seriesData[0][seriesData[0].length-1];
+        double yValue = seriesData[1][seriesData[1].length-1];
+
+        String label = yValue + ", \n" + timeInSecs + " secs";
+        final XYPointerAnnotation pointer =
+                new XYPointerAnnotation(label, xValue, yValue, (Math.PI / -2.0) - RNG.randomDouble() * (Math.PI / 4));
+
+        pointer.setBaseRadius(35.0);
+        pointer.setTipRadius(2.0);
+        pointer.setFont(new Font("SansSerif", Font.PLAIN, 12));
+        pointer.setPaint(plot.getRenderer().getSeriesPaint(this.dataset.indexOf(this.m_activeSeriesName)));
+        pointer.setTextAnchor(TextAnchor.HALF_ASCENT_RIGHT);
+        plot.addAnnotation(pointer);
     }
 }
