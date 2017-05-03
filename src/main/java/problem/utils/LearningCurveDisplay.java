@@ -44,7 +44,7 @@ public class LearningCurveDisplay {
         scatterChart =
                 ChartFactory.createXYLineChart(
                         "Learning Curve",
-                        "episode (/" + UPDATE_INTERVAL + ")",
+                        "episode (x" + UPDATE_INTERVAL + ")",
                         "rounds", dataset
                 );
 
