@@ -30,6 +30,8 @@ public class LearningCurveDisplay {
     private Map<String, Double[][]> m_seriesData;
     private String m_activeSeriesName;
 
+    private int m_round;
+
 
     public LearningCurveDisplay() {
 
@@ -38,6 +40,8 @@ public class LearningCurveDisplay {
 
         this.m_episodeCounter = new HashMap<>();
         this.m_seriesData = new HashMap<>();
+
+        this.m_round = 0;
 
         // scatterData = new double[][]{{0}, {0}};
         dataset = new DefaultXYDataset();
@@ -75,36 +79,49 @@ public class LearningCurveDisplay {
 
     private void addPoint(double x, double y) {
         Double[][] oldSeriesData = this.m_seriesData.get(this.m_activeSeriesName);
-        Double[][] newSeriesData = new Double[oldSeriesData.length][oldSeriesData[0].length+1];
+        Double[][] newSeriesData = null;
 
-        for (int i = 0 ; i < oldSeriesData.length ; i++) {
-            for (int j = 0 ; j < oldSeriesData[0].length ; j++) {
-                newSeriesData[i][j] = oldSeriesData[i][j];
+        if (this.m_round > 1) {
+            Double oldValue = oldSeriesData[1][(int)x-1];
+            oldSeriesData[1][(int)x-1] = ((this.m_round-1) * oldValue + y) / this.m_round;
+            newSeriesData = oldSeriesData;
+        }
+        else {
+            newSeriesData = new Double[oldSeriesData.length][oldSeriesData[0].length + 1];
+
+            for (int i = 0; i < oldSeriesData.length; i++) {
+                System.arraycopy(oldSeriesData[i], 0, newSeriesData[i], 0, oldSeriesData[0].length);
             }
+
+            newSeriesData[0][newSeriesData[0].length - 1] = x;
+            newSeriesData[1][newSeriesData[1].length - 1] = y;
         }
 
-        newSeriesData[0][newSeriesData[0].length-1] = x;
-        newSeriesData[1][newSeriesData[1].length-1] = y;
-
         double[][] seriesData = new double[newSeriesData.length][newSeriesData[0].length];
-        for (int i = 0 ; i < newSeriesData.length ; i++) {
-            for (int j = 0 ; j < newSeriesData[0].length ; j++) {
+        for (int i = 0; i < newSeriesData.length; i++) {
+            for (int j = 0; j < newSeriesData[0].length; j++) {
                 seriesData[i][j] = newSeriesData[i][j];
             }
         }
-        dataset.addSeries(this.m_activeSeriesName, seriesData);
 
+        dataset.addSeries(this.m_activeSeriesName, seriesData);
         this.m_seriesData.put(this.m_activeSeriesName, newSeriesData);
     }
 
     public void setActiveSeries(String seriesName) {
         this.m_activeSeriesName = seriesName;
+        this.m_round = 0;
 
         if (!this.m_episodeCounter.containsKey(seriesName)) {
             this.m_episodeCounter.put(seriesName, 0);
             this.m_tempResultSum.put(seriesName, 0.0);
             this.m_seriesData.put(seriesName, new Double[2][0]);
         }
+    }
+
+    public void resetRound() {
+        this.m_episodeCounter.put(this.m_activeSeriesName, 0);
+        this.m_tempResultSum.put(this.m_activeSeriesName, 0.0);
     }
 
     public void addSeriesTime(long timeInSecs) {
@@ -124,5 +141,9 @@ public class LearningCurveDisplay {
         pointer.setPaint(plot.getRenderer().getSeriesPaint(this.dataset.indexOf(this.m_activeSeriesName)));
         pointer.setTextAnchor(TextAnchor.HALF_ASCENT_RIGHT);
         plot.addAnnotation(pointer);
+    }
+
+    public void increaseRound() {
+        this.m_round++;
     }
 }

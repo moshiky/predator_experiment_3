@@ -22,7 +22,7 @@ public class SimilarityManager {
      *               4: STAY
      * @return
      */
-    public static ArrayList<SimilarityRecord> getSimilarityRecords(int[] state, int action) {
+    public static ArrayList<SimilarityRecord> getSimilarityRecords(double[] state, int action) {
         ArrayList<SimilarityRecord> similarityRecords = new ArrayList<>();
 
         // *** YOUR CODE HERE **********************************************************************

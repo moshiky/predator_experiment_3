@@ -14,20 +14,20 @@ import java.util.*;
  */
 public abstract class QLearningAgent extends LearningAgent {
 
-    private int[] m_previousState;
-    private DoubleHashTable<StateAction> m_qTable;
+    private double[] m_previousState;
+    private AvlTreeBasedQTable m_qTable;
 
     public QLearningAgent(Problem prob, AgentType type, int[] objectivesToUse) {
         super(prob, type, objectivesToUse);
 
-        if (AgentType.BasicQLearning == type || AgentType.Similarities == type) {
-            this.m_qTable = new DoubleHashTable<>(11567205);
-            this.m_qTable.reset();
-        }
+        this.m_qTable = new AvlTreeBasedQTable();
+        /* if (AgentType.BasicQLearning == type || AgentType.Similarities == type) {
+            this.m_qTable = new AvlTreeBasedQTable();
+        } */
     }
 
     public int act() {
-        if (AgentType.BasicQLearning == type || AgentType.Similarities == type) {
+        /* if (AgentType.BasicQLearning == type || AgentType.Similarities == type) {
             this.m_previousState = getIntState();
         }
         else {
@@ -45,23 +45,66 @@ public abstract class QLearningAgent extends LearningAgent {
             if (prevFa == null) {
                 prevFa = tileCoding(getState(), prevAction);
             }
-        }
+        } */
+        this.m_previousState = this.getState();
 
         return prevAction;
     }
 
-    /*private Double getQValue(String stateActionKey) {
-        if (!this.m_qTable.containsKey(stateActionKey)) {
-            this.m_qTable.put(stateActionKey, 0.0);
-        }
-
-        return this.m_qTable.get(stateActionKey);
-    }*/
-
     //Q(lambda) logic
     public void reward(double reward) {
 
-        if (AgentType.BasicQLearning == type || AgentType.Similarities == type) {
+        // find best action
+        double bestNextQValue = Double.MAX_VALUE * -1;
+        ArrayList<Integer> bestActions = new ArrayList<>();
+        double[] currentState = this.getState();
+
+        for (int i = 0 ; i < prob.getNumActions() ; i++) {
+            double currentStateQValue = this.m_qTable.getStateActionValue(currentState, i);
+            if (currentStateQValue >= bestNextQValue) {
+                if (currentStateQValue > bestNextQValue) {
+                    bestNextQValue = currentStateQValue;
+                    bestActions.clear();
+                }
+                bestActions.add(i);
+            }
+        }
+
+        // calculate delta
+        Double previousQValue = this.m_qTable.getStateActionValue(this.m_previousState, this.prevAction);
+        double delta = reward + gamma * bestNextQValue - previousQValue;
+
+        // update Q(s,a)
+        this.m_qTable.setStateActionValue(this.m_previousState, this.prevAction, previousQValue + alpha * delta);
+
+
+        // update similar state-action pairs in case agent type is Similarities
+        if (AgentType.Similarities == type) {
+            ArrayList<SimilarityRecord> similarityRecords =
+                    SimilarityManager.getSimilarityRecords(this.m_previousState, prevAction);
+
+            // update all relevant state-action records in the Q table
+            for (SimilarityRecord record : similarityRecords) {
+                previousQValue = this.m_qTable.getStateActionValue(record.getState(), record.getAction());
+                this.m_qTable.setStateActionValue(
+                        record.getState(),
+                        record.getAction(),
+                        previousQValue + alpha * delta * record.getSimilarityFactor()
+                );
+            }
+        }
+
+        // select next action
+        if (RNG.randomDouble() > epsilon) {
+            // select greedily
+            prevAction = bestActions.get(RNG.randomInt(bestActions.size()));
+        }
+        else {
+            // select random action
+            prevAction = RNG.randomInt(prob.getNumActions());
+        }
+
+        /*if (AgentType.BasicQLearning == type || AgentType.Similarities == type) {
             // find best action
             Double bestNextQValue = Double.MAX_VALUE * -1;
             ArrayList<Integer> bestActions = new ArrayList<>();
@@ -246,6 +289,6 @@ public abstract class QLearningAgent extends LearningAgent {
                     es[o][prevFa[i]] = 1;
                 }
             }
-        }
+        } */
     }
 }

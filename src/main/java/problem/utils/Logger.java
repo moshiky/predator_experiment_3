@@ -79,4 +79,9 @@ public class Logger {
     public void addSeriesTime(long timeInSecs) {
         this.m_learningCurveDisplay.addSeriesTime(timeInSecs);
     }
+
+    public void increaseRound() {
+        this.m_learningCurveDisplay.increaseRound();
+        this.m_learningCurveDisplay.resetRound();
+    }
 }
