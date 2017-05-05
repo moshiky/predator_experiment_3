@@ -42,7 +42,7 @@ public class Experiments {
          *      11 - RewardShaping
          * ]
          */
-        int[] agentTypeToRun = new int[]{8, 9};
+        int[] agentTypeToRun = new int[]{8, 11, 9};
         for (int agentType : agentTypeToRun) {
             experimentManager.runAgent(agentType);
         }

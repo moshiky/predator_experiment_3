@@ -55,7 +55,7 @@ public class Predator extends Animal {
                         this
                     );
         }
-        else if (AgentType.BasicQLearning == type) {
+        else if (AgentType.BasicQLearning == type || AgentType.RewardShaping == type) {
             Animal[] predators = pw.getPredators();
             Animal[] preys = pw.getPreys();
 

@@ -70,6 +70,12 @@ public abstract class QLearningAgent extends LearningAgent {
             }
         }
 
+        // shape reward in case needed
+        if (AgentType.RewardShaping == type) {
+            // r = R(s,a,s') + F(s,a,s')
+            reward += shaping(4);
+        }
+
         // calculate delta
         Double previousQValue = this.m_qTable.getStateActionValue(this.m_previousState, this.prevAction);
         double delta = reward + gamma * bestNextQValue - previousQValue;
