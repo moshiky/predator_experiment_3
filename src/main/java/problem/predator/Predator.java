@@ -55,25 +55,6 @@ public class Predator extends Animal {
                         this
                     );
         }
-        else if (AgentType.BasicQLearning == type || AgentType.RewardShaping == type) {
-            Animal[] predators = pw.getPredators();
-            Animal[] preys = pw.getPreys();
-
-            state = new double[2 * (predators.length + preys.length)];
-            int stateIndex = 0;
-
-            for (Animal predator : predators) {
-                state[stateIndex++] = predator.x;
-                state[stateIndex++] = predator.y;
-            }
-
-            for (Animal prey : preys) {
-                state[stateIndex++] = prey.x;
-                state[stateIndex++] = prey.y;
-            }
-
-            return state;
-        }
         else {
             Animal[] predators = pw.getPredators();
             Animal[] preys = pw.getPreys();
