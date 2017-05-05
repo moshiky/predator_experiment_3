@@ -24,7 +24,25 @@ public class Experiments {
         ExperimentManager experimentManager = new ExperimentManager(logger);
 
         // run selected agent types
-        int[] agentTypeToRun = new int[]{8};
+        /**
+         * with Tile Coding: [
+         *      0 - No Shaping
+         *      1 - Single Shaping {1}
+         *      2 - Single Shaping {2}
+         *      3 - Single Shaping {3}
+         *      4 - Linear
+         *      5 - Best Linear
+         *      6 - ROS
+         *      7 - AOS
+         * ]
+         * Basic Q Learning: [
+         *      8 - Abstraction
+         *      9 - Basic Q Learning [no speedup method]
+         *      10 - Similarities
+         *      11 - RewardShaping
+         * ]
+         */
+        int[] agentTypeToRun = new int[]{8, 9};
         for (int agentType : agentTypeToRun) {
             experimentManager.runAgent(agentType);
         }
