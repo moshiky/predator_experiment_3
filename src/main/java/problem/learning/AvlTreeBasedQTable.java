@@ -15,12 +15,10 @@ public class AvlTreeBasedQTable {
         AvlTree currentTree = this.m_tree;
         AvlNode currentNode = null;
 
-        int featuresSoFar = 0;
-        for (double featureValue : state) {
-            currentNode = this.getNodeAtValue(currentTree, featureValue);
+        for (int i = 0 ; i < state.length ; i++) {
+            currentNode = this.getNodeAtValue(currentTree, state[i]);
 
-            featuresSoFar ++;
-            if (null == currentNode.nextTree && featuresSoFar < state.length) {
+            if (null == currentNode.nextTree && i < state.length - 1) {
                 currentNode.nextTree = new AvlTree();
             }
 
@@ -49,18 +47,19 @@ public class AvlTreeBasedQTable {
         return valueNode;
     }
 
-    private double getActionValue(AvlNode node, int action) {
+    private void verifyActionArrayInitialized(AvlNode node) {
         if (node.actionValues == null) {
             node.actionValues = new double[]{0.0, 0.0, 0.0, 0.0, 0.0};
         }
+    }
+
+    private double getActionValue(AvlNode node, int action) {
+        this.verifyActionArrayInitialized(node);
         return node.actionValues[action];
     }
 
     private void setActionValue(AvlNode node, int action, double value) {
-        if (node.actionValues == null) {
-            node.actionValues = new double[]{0.0, 0.0, 0.0, 0.0, 0.0};
-        }
+        this.verifyActionArrayInitialized(node);
         node.actionValues[action] = value;
     }
-
 }

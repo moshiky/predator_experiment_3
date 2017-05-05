@@ -19,7 +19,7 @@ import java.util.Map;
  */
 public class LearningCurveDisplay {
 
-    private final double UPDATE_INTERVAL = 50;
+    private final double UPDATE_INTERVAL = 100;
     private JPanel panel;
 
     private JFreeChart scatterChart;
@@ -61,20 +61,19 @@ public class LearningCurveDisplay {
     public JPanel getPanel() { return panel; }
 
     public void addSample(double result) {
-        double newTempResultSum = this.m_tempResultSum.get(this.m_activeSeriesName) + result;
-        int newEpisodeCounter = this.m_episodeCounter.get(this.m_activeSeriesName) + 1;
+        double tempResultSum = this.m_tempResultSum.get(this.m_activeSeriesName);
+        int episodeCounter = this.m_episodeCounter.get(this.m_activeSeriesName);
 
-        if (newEpisodeCounter % this.UPDATE_INTERVAL == 0) {
-            double x = newEpisodeCounter / this.UPDATE_INTERVAL;
-            double y = newTempResultSum / this.UPDATE_INTERVAL;
+        if ((episodeCounter+1) % this.UPDATE_INTERVAL == 0) {
+            double x = (episodeCounter+1) / this.UPDATE_INTERVAL;
+            double y = tempResultSum / this.UPDATE_INTERVAL;
 
             this.addPoint(x, y);
-
-            newTempResultSum = 0;
+            tempResultSum = 0;
         }
 
-        this.m_episodeCounter.put(this.m_activeSeriesName, newEpisodeCounter);
-        this.m_tempResultSum.put(this.m_activeSeriesName, newTempResultSum);
+        this.m_episodeCounter.put(this.m_activeSeriesName, episodeCounter+1);
+        this.m_tempResultSum.put(this.m_activeSeriesName, tempResultSum+result);
     }
 
     private void addPoint(double x, double y) {

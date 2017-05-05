@@ -75,7 +75,9 @@ public abstract class QLearningAgent extends LearningAgent {
         double delta = reward + gamma * bestNextQValue - previousQValue;
 
         // update Q(s,a)
-        this.m_qTable.setStateActionValue(this.m_previousState, this.prevAction, previousQValue + alpha * delta);
+        this.m_qTable.setStateActionValue(
+                this.m_previousState, this.prevAction, previousQValue + alpha * delta
+        );
 
 
         // update similar state-action pairs in case agent type is Similarities
