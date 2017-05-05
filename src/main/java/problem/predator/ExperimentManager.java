@@ -70,7 +70,7 @@ public class ExperimentManager {
     }
 
     private double runExperimentType(AgentType agentType, int[] objectives) {
-        int experiments = 3;
+        int experiments = 5;
         int episodes = 15000;
         double[][] results = new double[experiments][episodes];
         long start_time = System.currentTimeMillis();

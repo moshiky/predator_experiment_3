@@ -3,12 +3,20 @@ package problem.learning;
 /**
  * Created by Dev on 04/05/2017.
  */
-public class AvlTreeBasedQTable {
+public class AvlTreeBasedQTable implements IQTable {
 
     private AvlTree m_tree;
 
     public AvlTreeBasedQTable() {
         this.m_tree = new AvlTree();
+    }
+
+    public double getKeyValue(double[] state, int action) {
+        return this.getStateActionValue(state, action);
+    }
+
+    public void setKeyValue(double[] state, int action, double value) {
+        this.setStateActionValue(state, action, value);
     }
 
     private AvlNode getStateNode(double[] state) {

@@ -119,8 +119,6 @@ public abstract class LearningAgent {
 
     public abstract double[] getState();
 
-    public abstract int[] getIntState();
-
     public abstract int getStateSize();
 
     public abstract double shaping(int s);

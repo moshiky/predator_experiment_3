@@ -61,31 +61,14 @@ public class Predator extends Animal {
             state = new double[4];
             for (int i = 0; i < predators.length; i++) {
                 if (predators[i] != this) {
-                    state[0] = (x - predators[i].x) / 10.0;
-                    state[1] = (y - predators[i].y) / 10.0;
+                    state[0] = x - predators[i].x;
+                    state[1] = y - predators[i].y;
                 }
             }
 
-            state[2] = (x - preys[0].x) / 10.0;
-            state[3] = (y - preys[0].y) / 10.0;
+            state[2] = x - preys[0].x;
+            state[3] = y - preys[0].y;
         }
-
-        return state;
-    }
-
-    public int[] getIntState() {
-        Animal[] predators = pw.getPredators();
-        Animal[] preys = pw.getPreys();
-        int[] state = new int[4];
-        for (int i = 0; i < predators.length; i++) {
-            if (predators[i] != this) {
-                state[0] = x - predators[i].x;
-                state[1] = y - predators[i].y;
-            }
-        }
-
-        state[2] = x - preys[0].x;
-        state[3] = y - preys[0].y;
 
         return state;
     }

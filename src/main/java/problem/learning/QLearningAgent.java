@@ -15,11 +15,16 @@ import java.util.*;
 public abstract class QLearningAgent extends LearningAgent {
 
     private double[] m_previousState;
-    private AvlTreeBasedQTable m_qTable;
+    private IQTable m_qTable;
 
     public QLearningAgent(Problem prob, AgentType type, int[] objectivesToUse) {
         super(prob, type, objectivesToUse);
-        this.m_qTable = new AvlTreeBasedQTable();
+        if (AgentType.Abstraction == type) {
+            this.m_qTable = new AvlTreeBasedQTable();
+        }
+        else {
+            this.m_qTable = new DoubleHashTable(11567205);
+        }
     }
 
     public int act() {
@@ -36,7 +41,7 @@ public abstract class QLearningAgent extends LearningAgent {
         double[] currentState = this.getState();
 
         for (int i = 0 ; i < prob.getNumActions() ; i++) {
-            double currentStateQValue = this.m_qTable.getStateActionValue(currentState, i);
+            double currentStateQValue = this.m_qTable.getKeyValue(currentState, i);
             if (currentStateQValue >= bestNextQValue) {
                 if (currentStateQValue > bestNextQValue) {
                     bestNextQValue = currentStateQValue;
@@ -53,11 +58,11 @@ public abstract class QLearningAgent extends LearningAgent {
         }
 
         // calculate delta
-        Double previousQValue = this.m_qTable.getStateActionValue(this.m_previousState, this.prevAction);
+        Double previousQValue = this.m_qTable.getKeyValue(this.m_previousState, this.prevAction);
         double delta = reward + gamma * bestNextQValue - previousQValue;
 
         // update Q(s,a)
-        this.m_qTable.setStateActionValue(
+        this.m_qTable.setKeyValue(
                 this.m_previousState, this.prevAction, previousQValue + alpha * delta
         );
 
@@ -69,8 +74,8 @@ public abstract class QLearningAgent extends LearningAgent {
 
             // update all relevant state-action records in the Q table
             for (SimilarityRecord record : similarityRecords) {
-                previousQValue = this.m_qTable.getStateActionValue(record.getState(), record.getAction());
-                this.m_qTable.setStateActionValue(
+                previousQValue = this.m_qTable.getKeyValue(record.getState(), record.getAction());
+                this.m_qTable.setKeyValue(
                         record.getState(),
                         record.getAction(),
                         previousQValue + alpha * delta * record.getSimilarityFactor()
