@@ -3,9 +3,7 @@ package problem.utils;
 
 import javax.swing.*;
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
+import java.nio.file.*;
 import java.text.SimpleDateFormat;
 import java.util.logging.FileHandler;
 
@@ -25,6 +23,9 @@ public class Logger {
             this.m_learningCurveDisplay = null;
 
             // create info file
+            if (Files.notExists(FileSystems.getDefault().getPath("logs"))) {
+                new File("logs").mkdirs();
+            }
             FileHandler loggingFile = new FileHandler(this.m_infoLogFilePath);
             loggingFile.close();
 
