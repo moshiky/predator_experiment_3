@@ -12,7 +12,6 @@
 hs_err_pid*
 
 .idea/
-logs/
 src/main/resources/
 src/test/
 target/
