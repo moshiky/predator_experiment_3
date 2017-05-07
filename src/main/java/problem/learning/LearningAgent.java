@@ -8,7 +8,6 @@ package problem.learning;
 
 import java.util.ArrayList;
 
-import org.apache.commons.math3.stat.inference.TTest;
 import problem.RNG;
 
 /**
@@ -134,7 +133,8 @@ public abstract class LearningAgent {
     //weights[objective][action][tile]. 
     //(Basically Qs[objective][action] = \SUM_{tile} weights[objective][action][tile])
     protected int adaptiveObjectiveSelection(double[][] Qs, double[][][] weights) {
-
+        return 0;
+/*
         //Will store best and worst Q-value per objective
         double[] best = new double[nrObjectives];
         double[] worst = new double[nrObjectives];
@@ -256,7 +256,7 @@ public abstract class LearningAgent {
                 }
             }
             return b[tmp];
-        }
+        }*/
     }
 
     protected int actionSelection(double[][] Qs) {
