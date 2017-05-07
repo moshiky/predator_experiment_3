@@ -5,6 +5,7 @@
 package problem.learning;
 
 import problem.RNG;
+import problem.predator.ShapingManager;
 import problem.predator.SimilarityManager;
 import problem.predator.SimilarityRecord;
 import java.util.*;
@@ -15,15 +16,21 @@ import java.util.*;
 public abstract class QLearningAgent extends LearningAgent {
 
     private double[] m_previousState;
+    private ShapingManager m_shapingManager;
     private IQTable m_qTable;
 
     public QLearningAgent(Problem prob, AgentType type, int[] objectivesToUse) {
         super(prob, type, objectivesToUse);
+
         if (AgentType.Abstraction == type) {
             this.m_qTable = new AvlTreeBasedQTable();
         }
         else {
             this.m_qTable = new DoubleHashTable(11567205);
+        }
+
+        if (AgentType.RewardShaping == type) {
+            this.m_shapingManager = new ShapingManager();
         }
     }
 
@@ -54,7 +61,7 @@ public abstract class QLearningAgent extends LearningAgent {
         // shape reward in case needed
         if (AgentType.RewardShaping == type) {
             // r = R(s,a,s') + F(s,a,s')
-            reward += shaping(4);
+            reward += this.m_shapingManager.getShapingReward(this.m_previousState, this.prevAction, currentState);
         }
 
         // calculate delta
