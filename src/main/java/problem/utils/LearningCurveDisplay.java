@@ -11,6 +11,7 @@ import problem.RNG;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -23,6 +24,7 @@ public class LearningCurveDisplay {
     private JPanel panel;
 
     private JFreeChart scatterChart;
+    private ChartPanel chartPanel;
     private DefaultXYDataset dataset;
 
     private Map<String, Double> m_tempResultSum;
@@ -31,9 +33,10 @@ public class LearningCurveDisplay {
     private String m_activeSeriesName;
 
     private int m_round;
+    private long m_currentTime;
 
 
-    public LearningCurveDisplay() {
+    public LearningCurveDisplay(long currentTime) {
 
         this.m_tempResultSum = new HashMap<>();
         this.m_activeSeriesName = "default";
@@ -42,6 +45,7 @@ public class LearningCurveDisplay {
         this.m_seriesData = new HashMap<>();
 
         this.m_round = 0;
+        this.m_currentTime = currentTime;
 
         // scatterData = new double[][]{{0}, {0}};
         dataset = new DefaultXYDataset();
@@ -52,7 +56,7 @@ public class LearningCurveDisplay {
                         "rounds", dataset
                 );
 
-        ChartPanel chartPanel = new ChartPanel(scatterChart);
+        chartPanel = new ChartPanel(scatterChart);
 
         panel.add(chartPanel);
         panel.validate();
@@ -144,5 +148,16 @@ public class LearningCurveDisplay {
 
     public void increaseRound() {
         this.m_round++;
+    }
+
+    public void saveChart() {
+        try {
+            ScreenImage.writeImage(
+                    ScreenImage.createImage(this.chartPanel),
+                    "graphs/graph_" + this.m_currentTime + ".jpg"
+            );
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

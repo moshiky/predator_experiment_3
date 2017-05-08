@@ -18,7 +18,7 @@ public class Experiments {
 
         long currentTime = System.currentTimeMillis();
         Logger logger = new Logger("logs/info__" + currentTime + ".log");
-        logger.initiateLearningCurveDisplay();
+        logger.initiateLearningCurveDisplay(currentTime);
 
         // create ExperimentManager instance
         ExperimentManager experimentManager = new ExperimentManager(logger);
