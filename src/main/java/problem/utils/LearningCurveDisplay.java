@@ -11,7 +11,10 @@ import problem.RNG;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -151,6 +154,11 @@ public class LearningCurveDisplay {
     }
 
     public void saveChart() {
+        // create info file
+        if (Files.notExists(FileSystems.getDefault().getPath("graphs"))) {
+            new File("graphs").mkdirs();
+        }
+
         try {
             ScreenImage.writeImage(
                     ScreenImage.createImage(this.chartPanel),
