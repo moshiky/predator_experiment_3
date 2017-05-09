@@ -154,7 +154,7 @@ public class LearningCurveDisplay {
     }
 
     public void saveChart() {
-        // create info file
+        // create graphs folder
         if (Files.notExists(FileSystems.getDefault().getPath("graphs"))) {
             new File("graphs").mkdirs();
         }
