@@ -2,6 +2,7 @@
 package problem.utils;
 
 import javax.swing.*;
+import java.awt.event.WindowAdapter;
 import java.io.*;
 import java.nio.file.*;
 import java.text.SimpleDateFormat;
@@ -57,14 +58,24 @@ public class Logger {
         }
     }
 
-    public void initiateLearningCurveDisplay() {
+    public void initiateLearningCurveDisplay(long currentTime) {
         this.m_curveDisplay = new JFrame("Learning Curve Display");
-        this.m_learningCurveDisplay = new LearningCurveDisplay();
+        this.m_learningCurveDisplay = new LearningCurveDisplay(currentTime);
 
         this.m_curveDisplay.add(this.m_learningCurveDisplay.getPanel());
-        this.m_curveDisplay.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.m_curveDisplay.setSize(1400, 800);
         this.m_curveDisplay.setLocationRelativeTo(null);
+
+        this.m_curveDisplay.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        this.m_curveDisplay.addWindowListener(
+                new WindowAdapter() {
+                    public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+                        m_learningCurveDisplay.saveChart();
+                        System.exit(0);
+                    }
+                }
+        );
+
         this.m_curveDisplay.setVisible(true);
     }
 
