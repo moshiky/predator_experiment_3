@@ -45,12 +45,16 @@ public class Predator extends Animal {
         double[] state;
 
         if (AgentType.Abstraction == type) {
+            Animal otherPredator = pw.getPredators()[0];
+            if (this == otherPredator) {
+                otherPredator = pw.getPredators()[1];
+            }
+
             state =
                     FeatureExtractor.getStateRepresentation(
-                        pw.getMap(),
-                        pw.getPredators(),
-                        pw.getPreys(),
-                        this
+                            this,
+                            otherPredator,
+                            pw.getPreys()[0]
                     );
         }
         else {
