@@ -66,6 +66,10 @@ public class ExperimentManager {
                 m_logger.setActiveSeries("RewardShaping");
                 this.runExperimentType(AgentType.RewardShaping, new int[]{4});
                 break;
+            case 12:
+                m_logger.setActiveSeries("BasicQLearningAbstraction");
+                this.runExperimentType(AgentType.BasicQLearningAbstraction, new int[]{0});
+                break;
         }
     }
 
