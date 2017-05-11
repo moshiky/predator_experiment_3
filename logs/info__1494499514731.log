@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+</log>
+[11/05/2017 13:45:14] >> Logger created
+[11/05/2017 13:45:15] >> Abstraction
+[11/05/2017 13:45:15] >> === Experiment #0 ===
+[11/05/2017 13:45:16] >> ex0ep100 mean: 2730.1
+[11/05/2017 13:45:17] >> ex0ep200 mean: 2465.04
+[11/05/2017 13:45:18] >> ex0ep300 mean: 2541.24
+[11/05/2017 13:45:19] >> ex0ep400 mean: 2457.73
+[11/05/2017 13:45:19] >> ex0ep500 mean: 2524.04
+[11/05/2017 13:45:20] >> ex0ep600 mean: 2701.26
