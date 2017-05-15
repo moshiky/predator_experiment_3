@@ -71,7 +71,7 @@ public class ExperimentManager {
 
     private double runExperimentType(AgentType agentType, int[] objectives) {
         int experiments = 1;
-        int episodes = 10000;
+        int episodes = 40000;
         double[][] results = new double[experiments][episodes];
         long start_time = System.currentTimeMillis();
         int loggingInterval = 100;
