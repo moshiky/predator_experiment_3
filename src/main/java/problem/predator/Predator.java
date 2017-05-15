@@ -57,6 +57,19 @@ public class Predator extends Animal {
                             pw.getPreys()[0]
                     );
         }
+        else if (AgentType.BasicQLearningAbstraction == type) {
+            Animal otherPredator = pw.getPredators()[0];
+            if (this == otherPredator) {
+                otherPredator = pw.getPredators()[1];
+            }
+
+            state =
+                    FeatureExtractor.getBasicStateRepresentation(
+                            this,
+                            otherPredator,
+                            pw.getPreys()[0]
+                    );
+        }
         else {
             Animal[] predators = pw.getPredators();
             Animal[] preys = pw.getPreys();

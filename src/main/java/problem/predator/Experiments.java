@@ -40,9 +40,10 @@ public class Experiments {
          *      9 - Basic Q Learning [no speedup method]
          *      10 - Similarities
          *      11 - RewardShaping
+         *      12 - BasicQLearningAbstraction
          * ]
          */
-        int[] agentTypeToRun = new int[]{8, 9};
+        int[] agentTypeToRun = new int[]{8, 12};
         for (int agentType : agentTypeToRun) {
             experimentManager.runAgent(agentType);
         }
