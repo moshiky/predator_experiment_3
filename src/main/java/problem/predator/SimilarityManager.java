@@ -26,6 +26,28 @@ public class SimilarityManager {
         ArrayList<SimilarityRecord> similarityRecords = new ArrayList<>();
 
         // *** YOUR CODE HERE **********************************************************************
+        if (action == 2){
+            double tmp_state_up[] = new double[]{-state[0],-state[1], state[3],state[2]};
+            similarityRecords.add(new SimilarityRecord(tmp_state_up ,0,1));
+
+            double tmp_state_down[] = new double[]{state[0],state[1],-state[3], -state[2],};
+            similarityRecords.add(new SimilarityRecord(tmp_state_down ,1,1));
+
+            double tmp_state_right[] = new double[]{-state[0],-state[1],- state[2],-state[3]};
+            similarityRecords.add(new SimilarityRecord(tmp_state_right ,3,1));
+
+        }
+        if (action == 0){
+            double tmp_state_left[] = new double[]{-state[0],-state[1], state[3],state[2]};
+            similarityRecords.add(new SimilarityRecord(tmp_state_left ,2,1));
+
+            double tmp_state_right[] = new double[]{state[0],state[1],-state[3], -state[2],};
+            similarityRecords.add(new SimilarityRecord(tmp_state_right ,3,1));
+
+            double tmp_state_down[] = new double[]{-state[0],-state[1],- state[2],-state[3]};
+            similarityRecords.add(new SimilarityRecord(tmp_state_down ,1,1));
+
+        }
 
         // *** END OF YOUR CODE ********************************************************************
 
