@@ -38,6 +38,39 @@ public class ShapingManager {
         double rewardShaping = 0.0;
 
         // *** YOUR CODE HERE **********************************************************************
+        if ((Math.abs(currentState[2]) <  Math.abs(previousState[2]))  &&
+                (Math.abs(currentState[3]) < Math.abs(previousState[3]))) {
+            rewardShaping = 10;
+        } else if ((Math.abs(currentState[2]) <  Math.abs(previousState[2]))  ||
+                (Math.abs(currentState[3]) < Math.abs(previousState[3]))) {
+            rewardShaping = 5;
+        } else {
+            rewardShaping = -100;
+        }
+
+//        if ((Math.abs(currentState[0]) >  Math.abs(previousState[0]))  &&
+//                (Math.abs(currentState[1]) < Math.abs(previousState[1]))) {
+//            rewardShaping += 3;
+//        } else if ((Math.abs(currentState[0]) <  Math.abs(previousState[0]))  &&
+//                (Math.abs(currentState[1]) > Math.abs(previousState[1]))) {
+//            rewardShaping += 3;
+//        } else if ((Math.abs(currentState[0]) <  Math.abs(previousState[0]))  &&
+//                (Math.abs(currentState[1]) < Math.abs(previousState[1]))) {
+//          //  rewardShaping += 4;
+//        } else {
+//          //  rewardShaping += -1;
+//        }
+
+//        int distancefrompray = (int) (Math.abs(currentState[2]) -  Math.abs(previousState[2]) +  Math.abs(currentState[3]) - Math.abs(previousState[3]));
+//        int distancefrompre = (int) (Math.abs(currentState[0]) -  Math.abs(previousState[0]) +  Math.abs(currentState[1]) - Math.abs(previousState[1]));
+//
+//        if (distancefrompre< distancefrompray) {
+//            rewardShaping += -2;
+//        }
+
+
+
+
 
         // *** END OF YOUR CODE ********************************************************************
 
