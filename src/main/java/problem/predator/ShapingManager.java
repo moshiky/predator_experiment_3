@@ -3,7 +3,8 @@ package problem.predator;
 /**
  * Created by Dev on 30/04/2017.
  */
-public class ShapingManager {
+public class ShapingManager
+{
 
     // *** YOUR CODE HERE **********************************************************************
     // Here you can add custom members, if needed
@@ -11,7 +12,8 @@ public class ShapingManager {
     // *** END OF YOUR CODE ********************************************************************
 
 
-    public ShapingManager () {
+    public ShapingManager ()
+    {
 
         // *** YOUR CODE HERE **********************************************************************
         // Here you can add custom members initialization, if needed
@@ -34,13 +36,72 @@ public class ShapingManager {
      *               4: STAY
      * @return the value of F(s, a, s'), such that R'(s, a, s') = R(s, a, s') + F(s, a, s')
      */
-    public double getShapingReward(double[] previousState, int previousAction, double[] currentState) {
+    public double getShapingReward(double[] previousState, int previousAction, double[] currentState)
+    {
         double rewardShaping = 0.0;
 
-        // *** YOUR CODE HERE **********************************************************************
+        double prevDistToP= 0.0, currDistToP= 0.0;
 
-        // *** END OF YOUR CODE ********************************************************************
+        prevDistToP= Math.sqrt(Math.pow(previousState[3], 2) + Math.pow(previousState[2], 2));
+        currDistToP= Math.sqrt(Math.pow(currentState[3], 2) + Math.pow(currentState[2], 2));
 
+        switch(previousAction)
+        {
+            case 0:
+                if(prevDistToP > currDistToP)
+                {
+                    rewardShaping = 2000;
+
+                }
+                else
+                {
+                    rewardShaping = -200000;
+                }
+                break;
+
+            case 1:
+                if(prevDistToP > currDistToP)
+                {
+                    rewardShaping = 2000;
+                }
+                else
+                {
+                    rewardShaping = -2000000;
+                }
+                break;
+
+            case 2:
+                if(prevDistToP > currDistToP)
+                {
+                    rewardShaping = 2000;
+                }
+                else
+                {
+                    rewardShaping = -2000000;
+                }
+                break;
+
+            case 3:
+                if(prevDistToP > currDistToP)
+                {
+                    rewardShaping = 2000;
+                }
+                else
+                {
+                    rewardShaping = -200000;
+                }
+                break;
+
+            case 4:
+                if(prevDistToP > currDistToP)
+                {
+                    rewardShaping = 1000;
+                }
+                else {
+                    rewardShaping = -100000;
+                }
+                break;
+        }
         return rewardShaping;
     }
 }
