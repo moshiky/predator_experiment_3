@@ -38,6 +38,16 @@ public class ShapingManager {
         double rewardShaping = 0.0;
 
         // *** YOUR CODE HERE **********************************************************************
+        if((((previousState[2] == -2 && previousAction == 3 && currentState[2] == -1) || (previousState[2] == 2 && previousAction == 2 && currentState[2] == 1)) && previousState[3] == 0) ||
+                (previousState[2] == 0 && ((currentState[3] == 1 && previousState[3] == 2 && previousAction == 0) || (previousState[3] == -2 && previousAction == 1 && currentState[3] == -1 ))))
+        {
+            rewardShaping = 10;
+        }
+        else if((((previousState[2] < -2 && previousAction == 3 && currentState[2] == previousState[2] +1) || (previousState[2] == 2 && previousAction > 2 && currentState[2] ==  previousState[2] - 1)) && previousState[3] == 0) ||
+                (previousState[2] == 0 && ((currentState[3] ==  previousState[3]-1 && previousState[3] > 2 && previousAction == 0) || (previousState[3] < -2 && previousAction == 1 && currentState[3] == previousState[3] +1 ))))
+        {
+            rewardShaping = 8;
+        }
 
         // *** END OF YOUR CODE ********************************************************************
 
