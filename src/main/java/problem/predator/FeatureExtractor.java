@@ -12,12 +12,15 @@ public class FeatureExtractor {
      * @param prey  the prey. you can access its location by: prey.x, prey.y
      * @return a representation of current state, as seen by thisPredator
      */
-    public static double[] getStateRepresentation(Animal thisPredator, Animal otherPredator, Animal prey) {
-        double[] state = null;
+    public static double[] getStateRepresentation(Animal thisPredator, Animal otherPredator, Animal prey)
+    {
+        double[] state= new double[4];
 
-        // *** YOUR CODE HERE **********************************************************************
 
-        // *** END OF YOUR CODE ********************************************************************
+        state[0]= Math.abs(thisPredator.x - otherPredator.x);
+        state[1]= Math.abs(thisPredator.y - otherPredator.y);
+        state[2]= Math.abs(thisPredator.x - prey.x);
+        state[3]= Math.abs(thisPredator.y - prey.y);
 
         return state;
     }
