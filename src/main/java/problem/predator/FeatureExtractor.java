@@ -13,9 +13,12 @@ public class FeatureExtractor {
      * @return a representation of current state, as seen by thisPredator
      */
     public static double[] getStateRepresentation(Animal thisPredator, Animal otherPredator, Animal prey) {
-        double[] state = null;
+        double[] state =  new double[2];
 
         // *** YOUR CODE HERE **********************************************************************
+
+        state[0] = thisPredator.x - prey.x;
+        state[1] = thisPredator.y - prey.y;
 
         // *** END OF YOUR CODE ********************************************************************
 
