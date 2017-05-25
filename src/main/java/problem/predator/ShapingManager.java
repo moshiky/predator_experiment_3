@@ -19,6 +19,8 @@ public class ShapingManager {
         // *** END OF YOUR CODE ********************************************************************
     }
 
+    public static double abs(double d) { return d > 0 ? d : -d; }
+
     /**
      *
      * @param previousState and currentState represents states:
@@ -38,6 +40,30 @@ public class ShapingManager {
         double rewardShaping = 0.0;
 
         // *** YOUR CODE HERE **********************************************************************
+
+        // don't enlarge distance from pray
+        if (abs(previousState[2]) < abs(currentState[2]))
+            rewardShaping -= 1;
+        if (abs(previousState[3]) < abs(currentState[3]))
+            rewardShaping -= 1;
+
+        if (abs(previousState[2]) + abs(previousState[3]) <= abs(currentState[2]) + abs(currentState[3]))
+            rewardShaping -= 1;
+
+        // reduce distance from pray
+        if (abs(previousState[2]) > abs(currentState[2]))
+            rewardShaping += 0.5;
+        if (abs(previousState[3]) > abs(currentState[3]))
+            rewardShaping += 0.5;
+
+         // reward staying away from other predator
+        if ((previousState[0] < -1 && previousAction == 2)
+                || (previousState[0] > 1 && previousAction == 3))
+            rewardShaping += 0.2;
+        if ((previousState[1] < -1 && previousAction == 0)
+                || (previousState[1] > 1 && previousAction == 1))
+            rewardShaping += 0.2;
+
 
         // *** END OF YOUR CODE ********************************************************************
 
