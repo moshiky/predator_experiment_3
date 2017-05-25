@@ -38,7 +38,9 @@ public class ShapingManager {
         double rewardShaping = 0.0;
 
         // *** YOUR CODE HERE **********************************************************************
-
+        double dis = (Math.pow(previousState[2],2) + Math.pow(previousState[3],2))
+                -( Math.pow(currentState[2],2) + Math.pow(currentState[3],2)) ;
+        rewardShaping = 0.5*dis;
         // *** END OF YOUR CODE ********************************************************************
 
         return rewardShaping;
