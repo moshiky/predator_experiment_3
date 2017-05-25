@@ -38,7 +38,7 @@ public class Logger {
     }
 
     public void info(String message) {
-        this.info(message, true);
+        this.info(message, false);
     }
 
     public void error(String message) {
@@ -95,5 +95,10 @@ public class Logger {
     public void increaseRound() {
         this.m_learningCurveDisplay.increaseRound();
         this.m_learningCurveDisplay.resetRound();
+    }
+
+    public void closeCurveDisplay() {
+        this.m_learningCurveDisplay.saveChart();
+        this.m_curveDisplay.dispose();
     }
 }

@@ -71,7 +71,7 @@ public class ExperimentManager {
 
     private double runExperimentType(AgentType agentType, int[] objectives) {
         int experiments = 1;
-        int episodes = 10000;
+        int episodes = 500;
         double[][] results = new double[experiments][episodes];
         long start_time = System.currentTimeMillis();
         int loggingInterval = 100;
@@ -102,6 +102,9 @@ public class ExperimentManager {
         double[] means = this.means(results);
         this.m_logger.info(">> Episodes mean: " + Arrays.toString(means));
         this.m_logger.info(">> Experiments mean: " + this.mean(means));
+
+        this.m_logger.closeCurveDisplay();
+
         return this.mean(means);
     }
 
