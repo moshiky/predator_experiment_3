@@ -36,11 +36,44 @@ public class ShapingManager {
      */
     public double getShapingReward(double[] previousState, int previousAction, double[] currentState) {
         double rewardShaping = 0.0;
+        double distanceFromFriend=distanceFrom("Friend",previousState,currentState);
+        double distanceFromFood=distanceFrom("Food",previousState,currentState);
 
         // *** YOUR CODE HERE **********************************************************************
+        if(prevIsLikeCurrent(previousState,currentState)||distanceFromFood==0||distanceFromFriend==0) {
+         //   System.out.println("reward is 0");
+            return 0;
+        }
 
-        // *** END OF YOUR CODE ********************************************************************
+        rewardShaping= 1/distanceFromFood+1/distanceFromFriend;
+        //System.out.println("reward is:"+rewardShaping);
+       // // *** END OF YOUR CODE ********************************************************************
 
         return rewardShaping;
     }
+
+    private static boolean prevIsLikeCurrent(double[] previousState,double[] currentState) {
+        boolean ans=true;
+        ans = ans && (previousState[0] == currentState[0]);
+        ans = ans && (previousState[1] == currentState[1]);
+        ans = ans && (previousState[2] == currentState[2]);
+        ans = ans && (previousState[3] == currentState[3]);
+        return ans;
+    }
+
+    public static double distanceFrom(String fromWho,double[] previousState, double[] currentState){
+            double oldDistance=1;
+            double newDistance=1;
+            switch(fromWho) {
+                case "Friend":
+                    oldDistance=Math.abs(previousState[0])+Math.abs(previousState[1]);
+                    newDistance=Math.abs(currentState[0])+Math.abs(currentState[1]);
+                case "Food":
+                    oldDistance=Math.abs(previousState[2])+Math.abs(previousState[3]);
+                    newDistance=Math.abs(currentState[2])+Math.abs(currentState[3]);
+
+            }
+           return newDistance<oldDistance ? 1/newDistance : -1/newDistance;
+    }
+
 }
