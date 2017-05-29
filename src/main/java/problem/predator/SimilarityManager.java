@@ -26,6 +26,76 @@ public class SimilarityManager {
         ArrayList<SimilarityRecord> similarityRecords = new ArrayList<>();
 
         // *** YOUR CODE HERE **********************************************************************
+        if(action==0) {
+            if (state[1] - 2 >-4 && state[3] - 2 >-4) {
+                double[] newState = {state[0], state[1] - 2, state[2], state[3]-2};
+                similarityRecords.add(new SimilarityRecord(newState, 1, 1));
+            }
+            if (state[0] - 1 > -4 && state[2] - 1 > -4) {
+                double[] newState = {state[0] -1, state[1]-1, state[2]-1, state[3]-1};
+                similarityRecords.add(new SimilarityRecord(newState, 3, 1));
+            }
+            if (state[0] + 1 < 4 && state[2] + 1 < 4) {
+                double[] newState = {state[0] +1, state[1]-1, state[2]+1, state[3]-1};
+                similarityRecords.add(new SimilarityRecord(newState, 2, 1));
+            }
+            double[] newState = {state[0], state[1]-1, state[2], state[3]-1};
+            similarityRecords.add(new SimilarityRecord(newState, 4, 1));
+
+        }
+/*
+        if(action==1) {
+            if (state[1] + 2 <4 && state[3] + 2 <4) {
+                double[] newState = {state[0], state[1] + 2, state[2], state[3]+2};
+                similarityRecords.add(new SimilarityRecord(newState, 0, 1));
+            }
+            if (state[0] - 1 > -4 && state[2] - 1 > -4) {
+                double[] newState = {state[0] -1, state[1]+1, state[2]-1, state[3]+1};
+                similarityRecords.add(new SimilarityRecord(newState, 3, 1));
+            }
+            if (state[0] + 1 < 4 && state[2] + 1 < 4) {
+                double[] newState = {state[0] +1, state[1]+1, state[2]+1, state[3]+1};
+                similarityRecords.add(new SimilarityRecord(newState, 2, 1));
+            }
+            double[] newState = {state[0], state[1]+1, state[2], state[3]+1};
+            similarityRecords.add(new SimilarityRecord(newState, 4, 1));
+
+        }
+*/
+        if(action==2) {
+
+            if (state[0] -2 > -4 && state[2] - 2 > -4) {
+                double[] newState = {state[0]-2 , state[1], state[2]-2, state[3]};
+                similarityRecords.add(new SimilarityRecord(newState, 3, 1));
+            }
+            if (state[1] + 1 < 4 && state[3] + 1 < 4) {
+                double[] newState = {state[0] -1, state[1]+1, state[2]-1, state[3]+1};
+                similarityRecords.add(new SimilarityRecord(newState, 0, 1));
+            }
+            if (state[1] -1 > -4 && state[3] -1 > -4) {
+                double[] newState = {state[0] -1, state[1]-1, state[2]-1, state[3]-1};
+                similarityRecords.add(new SimilarityRecord(newState, 1, 1));
+            }
+
+            double[] newState = {state[0]-1, state[1], state[2]-1, state[3]};
+            similarityRecords.add(new SimilarityRecord(newState, 4, 1));
+
+        }
+
+        if(action==3) {
+
+            if (state[0] +2 <4 && state[2] +2 <4) {
+                double[] newState = {state[0]+2 , state[1], state[2]+2, state[3]};
+                similarityRecords.add(new SimilarityRecord(newState, 2, 1));
+            }
+
+
+        }
+
+
+
+
+
 
         // *** END OF YOUR CODE ********************************************************************
 
