@@ -287,7 +287,7 @@ public abstract class LearningAgent {
         return scal;
     }
 
-    public abstract void reward(double reward);
+    public abstract void reward(double reward, boolean isTrainMode);
 
     protected int[] tileCoding(double[] state, int action) {
         int extra1 = action;

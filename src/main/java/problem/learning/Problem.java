@@ -15,12 +15,12 @@ public abstract class Problem {
 
     public abstract void reset();
 
-    public abstract void update();
+    public abstract void update(boolean isTrainMode);
 
     public abstract boolean isGoalReached();
 
     public abstract int getNumActions();
 
-    public abstract double episode();
+    public abstract double episode(boolean isTrainMode);
 
 }

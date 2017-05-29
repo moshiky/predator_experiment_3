@@ -83,7 +83,7 @@ public class PredatorWorld extends Problem {
     }
 
     //moves a predator or prey, checking whether 
-    public void move(Animal a) {
+    public void move(Animal a, boolean isTrainMode) {
         int x = a.x;
         int y = a.y;
         this.map[a.y][a.x] = null;
@@ -115,7 +115,7 @@ public class PredatorWorld extends Problem {
         if (this.map[a.y][a.x] == null) {
             this.map[a.y][a.x] = a;
             if (a.predator) {
-                a.reward(0);
+                a.reward(0, isTrainMode);
             }
             //if this is a predator, and the next location holds a prey, move onto location
         } else if (!this.map[a.y][a.x].predator && a.predator) {
@@ -126,7 +126,7 @@ public class PredatorWorld extends Problem {
             a.x = x;
             this.map[a.y][a.x] = a;
             if (a.predator) {
-                a.reward(0);
+                a.reward(0, isTrainMode);
             }
         }
     }
@@ -140,25 +140,25 @@ public class PredatorWorld extends Problem {
     }
 
     @Override
-    public void update() {
+    public void update(boolean isTrainMode) {
         for (int i = 0; i < aPreys.length; i++) {
-            move(aPreys[i]);
+            move(aPreys[i], isTrainMode);
         }
         for (int i = 0; i < aPredators.length; i++) {
-            move(aPredators[i]);
+            move(aPredators[i], isTrainMode);
         }
     }
 
-    public double episode() {
+    public double episode(boolean isTrainMode) {
         int iteration = 0;
         while (!isGoalReached() && iteration < 5000) {
-            update();
+            update(isTrainMode);
             iteration++;
         }
         //if the prey was caught, reward the predators with a 1
         for (int i = 0; i < aPredators.length; i++) {
             if (isGoalReached()) {
-                aPredators[i].reward(1);
+                aPredators[i].reward(1, isTrainMode);
             }
         }
         return iteration;

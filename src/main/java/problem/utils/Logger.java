@@ -85,11 +85,12 @@ public class Logger {
 
     public void setActiveSeries(String seriesName) {
         this.info(seriesName);
-        this.m_learningCurveDisplay.setActiveSeries(seriesName);
+        // this.m_learningCurveDisplay.setActiveSeries(seriesName);
     }
 
     public void addSeriesTime(long timeInSecs) {
-        this.m_learningCurveDisplay.addSeriesTime(timeInSecs);
+        this.info("run time: " + timeInSecs + " secs");
+        //this.m_learningCurveDisplay.addSeriesTime(timeInSecs);
     }
 
     public void increaseRound() {

@@ -18,7 +18,7 @@ public class Experiments {
 
         long currentTime = System.currentTimeMillis();
         Logger logger = new Logger("logs/info__" + currentTime + ".log");
-        logger.initiateLearningCurveDisplay(currentTime);
+        // logger.initiateLearningCurveDisplay(currentTime);
 
         // create ExperimentManager instance
         ExperimentManager experimentManager = new ExperimentManager(logger);
@@ -42,7 +42,7 @@ public class Experiments {
          *      11 - RewardShaping
          * ]
          */
-        int[] agentTypeToRun = new int[]{8};
+        int[] agentTypeToRun = new int[]{9};
         for (int agentType : agentTypeToRun) {
             experimentManager.runAgent(agentType);
         }
