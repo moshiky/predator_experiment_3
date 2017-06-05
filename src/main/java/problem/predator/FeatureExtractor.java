@@ -13,10 +13,22 @@ public class FeatureExtractor {
      * @return a representation of current state, as seen by thisPredator
      */
     public static double[] getStateRepresentation(Animal thisPredator, Animal otherPredator, Animal prey) {
-        double[] state = null;
+        double[] state = new double[2];
 
         // *** YOUR CODE HERE **********************************************************************
+        //First Try - Distance between this predator and other predator and this predator and the prey - BAD...
+        //state[0] = Math.sqrt(Math.pow(thisPredator.x - otherPredator.x,2)+Math.pow(thisPredator.y - otherPredator.y,2));
+        //state[1] = Math.sqrt(Math.pow(thisPredator.x - prey.x,2)+Math.pow(thisPredator.y - prey.y,2));
 
+        //Second Try - Just distance between this predator and the prey - Very Bad
+        //state[0] = Math.sqrt(Math.pow(thisPredator.x - prey.x,2)+Math.pow(thisPredator.y - prey.y,2));
+
+        //Third Try - relative distance between this predator and the prey - no need for other predator
+        state[0] = thisPredator.x - prey.x;
+        state[1] = thisPredator.y - prey.y;
+
+        //state[0] = Math.abs(prey.x- thisPredator.x);
+        //state[1] = Math.abs(prey.y - thisPredator.y);
         // *** END OF YOUR CODE ********************************************************************
 
         return state;
