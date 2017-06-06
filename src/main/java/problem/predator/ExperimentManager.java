@@ -3,6 +3,7 @@ package problem.predator;
 import problem.learning.AgentType;
 import problem.utils.Logger;
 
+import java.lang.reflect.Array;
 import java.util.Arrays;
 
 /**
@@ -73,11 +74,14 @@ public class ExperimentManager {
         int experiments = 10;
         int trainEpisodes = 500000;
         int evaluationEpisodes = 1000;
-        double[][] trainResults = new double[experiments][trainEpisodes];
-        double[][] evaluationResults = new double[experiments][evaluationEpisodes];
+        double[] trainMeanResults = new double[trainEpisodes];
+        double[] evaluationMeanResults = new double[evaluationEpisodes];
         long start_time = System.currentTimeMillis();
         int loggingInterval = 100;
         double tempSum = 0;
+
+        Arrays.fill(trainMeanResults, 0.0);
+        Arrays.fill(evaluationMeanResults, 0.0);
 
         for (int ex = 0; ex < experiments; ex++) {
             PredatorWorld p = new PredatorWorld(20, 2, agentType, objectives);
@@ -88,35 +92,36 @@ public class ExperimentManager {
             // train the agents
             for (int ep = 0; ep < trainEpisodes; ep++) {
                 p.reset();
-                trainResults[ex][ep] = p.episode(true);
-                // this.m_logger.addEpisodeResult(trainResults[ex][ep]);
+                double episodeResult = p.episode(true);
+                trainMeanResults[ep] = ((trainMeanResults[ep] * ex) + episodeResult) / (ex + 1.0);
 
                 if ((ep+1) % loggingInterval == 0) {
-                    this.m_logger.info("ex" + ex + "ep" + (ep+1) + " mean: " + tempSum/loggingInterval);
+                    this.m_logger.info("ex" + ex + "ep" + ep + " mean: " + tempSum/loggingInterval);
                     tempSum = 0;
                 }
-                tempSum += trainResults[ex][ep];
+                tempSum += episodeResult;
             }
 
             // evaluate performance
             for (int ep = 0; ep < evaluationEpisodes; ep++) {
                 p.reset();
-                evaluationResults[ex][ep] = p.episode(false);
-                this.m_logger.info("ex" + ex + "eval_ep" + (ep+1) + ": " + evaluationResults[ex][ep]);
+                double episodeResult = p.episode(false);
+                this.m_logger.info("ex" + ex + "eval_ep" + ep + ": " + episodeResult);
+                evaluationMeanResults[ep] = ((evaluationMeanResults[ep] * ex) + episodeResult) / (ex + 1.0);
             }
-            this.m_logger.info("ex_eval_mean:" + this.mean(evaluationResults[ex]));
+            this.m_logger.info("ex_eval_mean:" + this.mean(evaluationMeanResults));
         }
+
         long totalTime = (System.currentTimeMillis() - start_time) / 1000;
         this.m_logger.info("total time: " + totalTime + " secs");
         this.m_logger.addSeriesTime(totalTime);
 
-        double[] means = this.means(trainResults);
-        this.m_logger.info(">> Episodes mean: " + Arrays.toString(means));
-        this.m_logger.info(">> Experiments mean: " + this.mean(means));
+        this.m_logger.info(">> Train episodes mean: " + Arrays.toString(trainMeanResults));
+        this.m_logger.info(">> Train experiments mean: " + this.mean(trainMeanResults));
 
         // this.m_logger.closeCurveDisplay();
 
-        return this.mean(means);
+        return this.mean(trainMeanResults);
     }
 
     //averages the results of a number of runs
