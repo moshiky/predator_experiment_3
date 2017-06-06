@@ -21,4 +21,22 @@ public class FeatureExtractor {
 
         return state;
     }
+
+    /**
+     * For BasicQLearning while using abstraction
+     * @param thisPredator
+     * @param otherPredator
+     * @param prey
+     * @return
+     */
+    public static double[] getBasicStateRepresentation(Animal thisPredator, Animal otherPredator, Animal prey) {
+        double[] state = new double[4];
+
+        state[0] = thisPredator.x - otherPredator.x;
+        state[1] = thisPredator.y - otherPredator.y;
+        state[2] = thisPredator.x - prey.x;
+        state[3] = thisPredator.y - prey.y;
+
+        return state;
+    }
 }

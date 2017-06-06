@@ -22,7 +22,7 @@ public abstract class QLearningAgent extends LearningAgent {
     public QLearningAgent(Problem prob, AgentType type, int[] objectivesToUse) {
         super(prob, type, objectivesToUse);
 
-        if (AgentType.Abstraction == type) {
+        if (AgentType.Abstraction == type || AgentType.BasicQLearningAbstraction == type) {
             this.m_qTable = new AvlTreeBasedQTable();
         }
         else {

@@ -40,6 +40,7 @@ public class Experiments {
          *      9 - Basic Q Learning [no speedup method]
          *      10 - Similarities
          *      11 - RewardShaping
+         *      12 - BasicQLearningAbstraction
          * ]
          */
         int[] agentTypeToRun = new int[]{9};
