@@ -43,7 +43,7 @@ public class Experiments {
          *      12 - BasicQLearningAbstraction
          * ]
          */
-        int[] agentTypeToRun = new int[]{9};
+        int[] agentTypeToRun = new int[]{8};
         for (int agentType : agentTypeToRun) {
             experimentManager.runAgent(agentType);
         }
