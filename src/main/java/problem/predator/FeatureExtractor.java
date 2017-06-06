@@ -12,7 +12,7 @@ public class FeatureExtractor {
      * @param prey  the prey. you can access its location by: prey.x, prey.y
      * @return a representation of current state, as seen by thisPredator
      */
-    public static double[] getStateRepresentation(Animal thisPredator, Animal otherPredator, Animal prey) {
+    public static double[] getStateRepresentation(Animal otherPredator, Animal prey) {
         double[] state = null;
 
         // *** YOUR CODE HERE **********************************************************************
