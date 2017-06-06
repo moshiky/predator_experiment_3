@@ -8,7 +8,7 @@ public class FeatureExtractor {
         double[] state = null;
 
         // *** YOUR CODE HERE **********************************************************************
-
+// code changed
         // *** END OF YOUR CODE ********************************************************************
 
         return state;
