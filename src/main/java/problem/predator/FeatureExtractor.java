@@ -16,6 +16,11 @@ public class FeatureExtractor {
         double[] state = null;
 
         // *** YOUR CODE HERE **********************************************************************
+        state = new double[2];
+        state[0] = thisPredator.x - prey.x;
+        state[1] = thisPredator.y - prey.y;
+       // state[2] = Math.abs(otherPredator.x - prey.x) +Math.abs(otherPredator.y - prey.y);
+
 
         // *** END OF YOUR CODE ********************************************************************
 
