@@ -91,7 +91,7 @@ public abstract class QLearningAgent extends LearningAgent {
         }
 
         // select next action
-        if (RNG.randomDouble() > epsilon) {
+        if (RNG.randomDouble() > epsilon && bestActions.size() > 0) {
             // select greedily
             prevAction = bestActions.get(RNG.randomInt(bestActions.size()));
         }

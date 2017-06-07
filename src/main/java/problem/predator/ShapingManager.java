@@ -38,7 +38,28 @@ public class ShapingManager {
         double rewardShaping = 0.0;
 
         // *** YOUR CODE HERE **********************************************************************
+        double xReward = 0.0;
+        double yReward = 0.0;
+        double xRewardbefore = 0.0;
+        double yRewardBefore = 0.0;
+        if (previousState[2] != 0 && previousState[3] != 0) {
+            xRewardbefore = Math.abs(1.0 / currentState[2]);
+            yRewardBefore = Math.abs(1.0 / currentState[3]);
+        }
+        else if (previousState[2] == 0)
+            xRewardbefore = 1.0;
+        else
+            yRewardBefore = 1.0;
 
+        if (currentState[2] != 0 && currentState[3] != 0) {
+            xReward = Math.abs(1.0 / currentState[2]);
+            yReward = Math.abs(1.0 / currentState[3]);
+        }
+        else if (currentState[2] == 0)
+            xReward = 1.0;
+        else
+            yReward = 1.0;
+        rewardShaping =  Math.sqrt(Math.pow(xReward - xRewardbefore,2) + Math.pow(yReward  - yRewardBefore,2));
         // *** END OF YOUR CODE ********************************************************************
 
         return rewardShaping;
