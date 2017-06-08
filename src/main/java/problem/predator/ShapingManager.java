@@ -36,8 +36,22 @@ public class ShapingManager {
      */
     public double getShapingReward(double[] previousState, int previousAction, double[] currentState) {
         double rewardShaping = 0.0;
-
+        double dist = 0.0;
         // *** YOUR CODE HERE **********************************************************************
+
+        dist = Math.sqrt(Math.pow(previousState[2] - currentState[2], 2) + Math.pow(previousState[3] - currentState[3], 2));
+
+
+        if (previousState[2] > currentState[2] && previousState[3] > currentState[3]) {
+            rewardShaping = dist;
+        }
+        else if(previousState[2] < currentState[2] && previousState[3] < currentState[3]) {
+            rewardShaping = -dist;
+        }
+
+
+
+
 
         // *** END OF YOUR CODE ********************************************************************
 
