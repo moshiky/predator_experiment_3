@@ -9,7 +9,7 @@ public class SimilarityRecord {
     private double m_similarityFactor;
 
     public SimilarityRecord(double[] state, int action, double similarityFactor) {
-        this.m_state = state;
+        this.m_state = state.clone();
         this.m_action = action;
 
         if (similarityFactor > 1 || similarityFactor < 0) {
