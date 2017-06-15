@@ -26,6 +26,32 @@ public class SimilarityManager {
         ArrayList<SimilarityRecord> similarityRecords = new ArrayList<>();
 
         // *** YOUR CODE HERE **********************************************************************
+        double[] newState = state.clone();
+
+        for (int i = 0; i < 4; i++) {
+            newState[i] = state[i] * (-1);
+        }
+        int newAction;
+        switch(action) {
+            case 0:
+                newAction = 1;
+                break;
+            case 1:
+                newAction = 0;
+                break;
+            case 2:
+                newAction = 3;
+                break;
+            case 3:
+                newAction = 2;
+                break;
+            default:
+                newAction = action;
+        }
+
+        double factor = 1;
+        similarityRecords.add(new SimilarityRecord(newState, newAction, factor));
+
 
         // *** END OF YOUR CODE ********************************************************************
 
