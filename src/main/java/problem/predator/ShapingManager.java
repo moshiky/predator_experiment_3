@@ -34,13 +34,40 @@ public class ShapingManager {
      *               4: STAY
      * @return the value of F(s, a, s'), such that R'(s, a, s') = R(s, a, s') + F(s, a, s')
      */
-    public double getShapingReward(double[] previousState, int previousAction, double[] currentState) {
-        double rewardShaping = 0.0;
-
+    public double getShapingReward(double[] previousState, int previousAction, double[] currentState)
+    {
         // *** YOUR CODE HERE **********************************************************************
+
+        if(previousAction == 0)
+        {
+            if (previousState[3] > 0)
+                return 0.4;
+            return -0.1;
+        }
+
+        if(previousAction == 1)
+        {
+            if(previousState[3] < 0)
+                return 0.4;
+            return -0.1;
+        }
+
+        if(previousAction == 3)
+        {
+            if(previousState[2] < 0)
+                return 0.4;
+            return -0.1;
+        }
+
+        if(previousAction == 2)
+        {
+            if (previousState[2] > 0)
+                return 0.4;
+            return -0.1;
+        }
 
         // *** END OF YOUR CODE ********************************************************************
 
-        return rewardShaping;
+        return 0; // stay in place..
     }
 }
