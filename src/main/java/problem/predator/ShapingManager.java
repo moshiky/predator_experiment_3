@@ -38,7 +38,33 @@ public class ShapingManager {
         double rewardShaping = 0.0;
 
         // *** YOUR CODE HERE **********************************************************************
+        switch (previousAction) {
 
+            case 2:
+                if (Math.abs(currentState[2]) < Math.abs(previousState[2]))
+                rewardShaping = 0.9;
+                if (Math.abs(currentState[2]) > Math.abs(previousState[2]))
+                    rewardShaping = -0.9;
+                break;
+            case 3:
+                if (Math.abs(currentState[2]) < Math.abs(previousState[2]))
+                rewardShaping = 0.9;
+                if (Math.abs(currentState[2]) > Math.abs(previousState[2]))
+                    rewardShaping = -0.9;
+                break;
+            case 0:
+                if (Math.abs(currentState[3]) < Math.abs(previousState[3]))
+                rewardShaping = 0.9;
+                if (Math.abs(currentState[3]) > Math.abs(previousState[3]))
+                    rewardShaping = -0.9;
+                break;
+            case 1:
+                if (Math.abs(currentState[3]) < Math.abs(previousState[3]))
+                rewardShaping = 0.9;
+                if (Math.abs(currentState[3]) > Math.abs(previousState[3]))
+                    rewardShaping = -0.9;
+                break;
+        }
         // *** END OF YOUR CODE ********************************************************************
 
         return rewardShaping;
