@@ -80,7 +80,7 @@ public class ExperimentManager {
 
     private double runExperimentType(AgentType agentType, int[] objectives) {
         int experiments = 10;
-        int trainEpisodes = 500000;
+        int trainEpisodes = 1000000;
         int evaluationEpisodes = 1000;
         double[] trainMeanResults = new double[trainEpisodes];
         double[] evaluationMeanResults = new double[evaluationEpisodes];
