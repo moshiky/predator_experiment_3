@@ -39,6 +39,9 @@ public class ShapingManager {
 
         // *** YOUR CODE HERE **********************************************************************
 
+        rewardShaping = (currentState[2] - previousState[2]) + (currentState[3] - previousState[3])/2;
+
+
         // *** END OF YOUR CODE ********************************************************************
 
         return rewardShaping;
