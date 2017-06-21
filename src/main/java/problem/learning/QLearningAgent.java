@@ -29,7 +29,7 @@ public abstract class QLearningAgent extends LearningAgent {
             this.m_qTable = new DoubleHashTable(11567205);
         }
 
-        if (AgentType.RewardShaping == type) {
+        if (AgentType.RewardShaping == type || AgentType.SimilaritiesOnRewardShaping == type) {
             this.m_shapingManager = new ShapingManager();
         }
     }
@@ -60,7 +60,7 @@ public abstract class QLearningAgent extends LearningAgent {
 
         if (isTrainMode) {
             // shape reward in case needed
-            if (AgentType.RewardShaping == type) {
+            if (AgentType.RewardShaping == type || AgentType.SimilaritiesOnRewardShaping == type) {
                 // r = R(s,a,s') + F(s,a,s')
                 reward += this.m_shapingManager.getShapingReward(this.m_previousState, this.prevAction, currentState);
             }
@@ -76,7 +76,7 @@ public abstract class QLearningAgent extends LearningAgent {
 
 
             // update similar state-action pairs in case agent type is Similarities
-            if (AgentType.Similarities == type) {
+            if (AgentType.Similarities == type || AgentType.SimilaritiesOnRewardShaping == type) {
                 ArrayList<SimilarityRecord> similarityRecords =
                         SimilarityManager.getSimilarityRecords(this.m_previousState, prevAction);
 

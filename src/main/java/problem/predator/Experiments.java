@@ -41,6 +41,7 @@ public class Experiments {
          *      10 - Similarities
          *      11 - RewardShaping
          *      12 - BasicQLearningAbstraction
+         *      13 - SimilaritiesOnRewardShaping
          * ]
          */
         int[] agentTypeToRun = new int[]{8};

@@ -22,8 +22,9 @@ package problem.learning;
  * Similarities: based on BasicQLearning. agent learning the base reward, but Q value updates are propagate to 'similar' states according to user specification.
  * RewardShaping: same as SingleShaping, just the shaping function is user defined
  * BasicQLearningAbstraction: same as BasicQLearning, just uses AvlTreeBasedQTable fot its q table
+ * SimilaritiesOnRewardShaping: both Similarities and RewardShaping are activated at the same time
  * */
 public enum AgentType {
     Random, NoShaping, SingleShaping, Linear, BestLinear, ROS, AOS,
-    Abstraction, BasicQLearning, Similarities, RewardShaping, BasicQLearningAbstraction
+    Abstraction, BasicQLearning, Similarities, RewardShaping, BasicQLearningAbstraction, SimilaritiesOnRewardShaping
 }
