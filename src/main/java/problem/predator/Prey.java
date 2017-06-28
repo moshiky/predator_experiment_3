@@ -60,19 +60,21 @@ public class Prey extends Animal {
 
         Animal[] predators = pw.getPredators();
         Animal[] preys = pw.getPreys();
-        double best = -Double.MAX_VALUE;
+        double best = 0;
+        boolean isFirstValue = true;
         ArrayList<Integer> ibest = new ArrayList<Integer>();
         for (int i = 0; i < Direction.values().length; i++) {
             double[] coords = new double[]{x, y};
             simMove(Direction.values()[i], coords);
             double dist = distance(coords[0], coords[1], predators[0].x, predators[0].y)
                     + distance(coords[0], coords[1], predators[1].x, predators[1].y);
-            if (dist >= best) {
-                if (dist > best) {
+            if (dist >= best || isFirstValue) {
+                if (dist > best || isFirstValue) {
                     ibest.clear();
                 }
                 ibest.add(i);
                 best = dist;
+                isFirstValue = false;
             }
         }
         return ibest.get(RNG.randomInt(ibest.size()));
