@@ -84,7 +84,7 @@ public class ExperimentManager {
         int evaluationEpisodes = 1000;
         double[] trainMeanResults = new double[trainEpisodes];
         double[] evaluationMeanResults = new double[evaluationEpisodes];
-        long start_time = System.currentTimeMillis();
+        long startTime = System.currentTimeMillis();
         int loggingInterval = 100;
         double tempSum = 0;
 
@@ -117,19 +117,21 @@ public class ExperimentManager {
                 this.m_logger.info("ex" + ex + "eval_ep" + ep + ": " + episodeResult);
                 evaluationMeanResults[ep] = ((evaluationMeanResults[ep] * ex) + episodeResult) / (ex + 1.0);
             }
-            this.m_logger.info("ex_eval_mean:" + this.mean(evaluationMeanResults));
         }
 
-        long totalTime = (System.currentTimeMillis() - start_time) / 1000;
+        long totalTime = (System.currentTimeMillis() - startTime) / 1000;
         this.m_logger.info("total time: " + totalTime + " secs");
         this.m_logger.addSeriesTime(totalTime);
 
+        this.m_logger.info("ex_eval_mean:" + this.mean(evaluationMeanResults));
+
         this.m_logger.info(">> Train episodes mean: " + Arrays.toString(trainMeanResults));
-        this.m_logger.info(">> Train experiments mean: " + this.mean(trainMeanResults));
+        double trainGlobalMean = this.mean(trainMeanResults);
+        this.m_logger.info(">> Train experiments mean: " + trainGlobalMean);
 
         // this.m_logger.closeCurveDisplay();
 
-        return this.mean(trainMeanResults);
+        return trainGlobalMean;
     }
 
     //averages the results of a number of runs
