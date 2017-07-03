@@ -43,18 +43,20 @@ public abstract class QLearningAgent extends LearningAgent {
     public void reward(double reward, boolean isTrainMode) {
 
         // find best action
-        double bestNextQValue = Double.MAX_VALUE * -1;
+        double bestNextQValue = 0;
+        boolean isFirstValue = true;
         ArrayList<Integer> bestActions = new ArrayList<>();
         double[] currentState = this.getState();
 
         for (int i = 0 ; i < prob.getNumActions() ; i++) {
             double currentStateQValue = this.m_qTable.getKeyValue(currentState, i);
-            if (currentStateQValue >= bestNextQValue) {
-                if (currentStateQValue > bestNextQValue) {
+            if ((currentStateQValue >= bestNextQValue) || isFirstValue) {
+                if ((currentStateQValue > bestNextQValue) || isFirstValue) {
                     bestNextQValue = currentStateQValue;
                     bestActions.clear();
                 }
                 bestActions.add(i);
+                isFirstValue = false;
             }
         }
 
