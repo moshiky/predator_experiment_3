@@ -9,13 +9,13 @@ public class ShapingManager {
     // Here you can add custom members, if needed
 
     // *** END OF YOUR CODE ********************************************************************
-
+ double maxFar;
 
     public ShapingManager () {
 
         // *** YOUR CODE HERE **********************************************************************
         // Here you can add custom members initialization, if needed
-
+        maxFar = Math.sqrt(Math.pow(19 ,2) +  Math.pow(19 ,2));
         // *** END OF YOUR CODE ********************************************************************
     }
 
@@ -38,8 +38,11 @@ public class ShapingManager {
         double rewardShaping = 0.0;
 
         // *** YOUR CODE HERE **********************************************************************
-
-        // *** END OF YOUR CODE ********************************************************************
+            double res1 = Math.sqrt(Math.pow(previousState[2] ,2) +  Math.pow(previousState[3] ,2));
+            double res2 = Math.sqrt(Math.pow(currentState[2] ,2) +  Math.pow(currentState[3] ,2));
+         if(res1 > res2)
+             rewardShaping = (res1-res2) / maxFar ;
+             // *** END OF YOUR CODE ********************************************************************
 
         return rewardShaping;
     }
