@@ -40,7 +40,7 @@ public class SimilarityManager {
             state1[0] = state[0];
             state1[1] = state[1];
             state1[2] = state[2];
-            state1[3] = state[3] - 2;
+            state1[3] = Math.max(state[3] - 2, -19);
 
             int action1 = 3;
             double similarityFactor1 = 1;
@@ -50,8 +50,8 @@ public class SimilarityManager {
             double [] state2 = new double[4];
             state2[0] = state[0];
             state2[1] = state[1];
-            state2[2] = state[2] -1;
-            state2[3] = state[3] -1;
+            state2[2] = Math.max(state[2] - 1, -19);
+            state2[3] = Math.max(state[2] - 1, -19);
             int action2 = 0;
 
             SimilarityRecord s2 = new SimilarityRecord(state2,action2,similarityFactor1);
