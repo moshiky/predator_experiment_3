@@ -83,7 +83,7 @@ public class ExperimentManager {
         int trainEpisodes = 200000;
         int evaluationEpisodes = 10000;
         int evaluationInterval = 10000;
-        int maxSecondsForTrainSession = 60;
+        int maxSecondsForTrainSession = 60 * 1000;
         int loggingInterval = 100;
 
         double[] trainMeanResults = new double[trainEpisodes];
