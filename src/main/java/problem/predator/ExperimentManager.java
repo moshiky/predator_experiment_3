@@ -79,9 +79,10 @@ public class ExperimentManager {
     }
 
     private double runExperimentType(AgentType agentType, int[] objectives) {
-        int experiments = 10;
-        int trainEpisodes = 1000000;
-        int evaluationEpisodes = 1000;
+        int experiments = 50;
+        int trainEpisodes = 200000;
+        int evaluationEpisodes = 10000;
+        int evaluationInterval = 10000;
         double[] trainMeanResults = new double[trainEpisodes];
         double[] evaluationMeanResults = new double[evaluationEpisodes];
         long startTime = System.currentTimeMillis();
@@ -98,36 +99,40 @@ public class ExperimentManager {
             tempSum = 0;
 
             // train the agents
+            double episodeResult = 0;
             for (int ep = 0; ep < trainEpisodes; ep++) {
                 p.reset();
-                double episodeResult = p.episode(true);
+                episodeResult = p.episode(true);
                 trainMeanResults[ep] = ((trainMeanResults[ep] * ex) + episodeResult) / (ex + 1.0);
 
-                if ((ep+1) % loggingInterval == 0) {
-                    this.m_logger.info("ex" + ex + "ep" + ep + " mean: " + tempSum/loggingInterval);
+                if ((ep + 1) % loggingInterval == 0) {
+                    this.m_logger.info("ex" + ex + "ep" + ep + " mean: " + tempSum / loggingInterval);
                     tempSum = 0;
                 }
                 tempSum += episodeResult;
-            }
 
-            // evaluate performance
-            for (int ep = 0; ep < evaluationEpisodes; ep++) {
-                p.reset();
-                double episodeResult = p.episode(false);
-                this.m_logger.info("ex" + ex + "eval_ep" + ep + ": " + episodeResult);
-                evaluationMeanResults[ep] = ((evaluationMeanResults[ep] * ex) + episodeResult) / (ex + 1.0);
+                if (((ep + 1) % evaluationInterval) == 0) {
+                    // evaluate performance
+                    this.m_logger.info("-- Evaluation --");
+                    double evaluationEpisodeResult = 0;
+                    for (int evalEp = 0; evalEp < evaluationEpisodes; evalEp++) {
+                        p.reset();
+                        evaluationEpisodeResult = p.episode(false);
+                        evaluationMeanResults[evalEp] = evaluationEpisodeResult;
+                    }
+                    this.m_logger.info("evaluation results: " + Arrays.toString(evaluationMeanResults));
+                    this.m_logger.info("mean result: " + this.mean(evaluationMeanResults));
+                }
             }
         }
 
-        long totalTime = (System.currentTimeMillis() - startTime) / 1000;
+        double totalTime = (System.currentTimeMillis() - startTime) / 1000.0;
         this.m_logger.info("total time: " + totalTime + " secs");
         this.m_logger.addSeriesTime(totalTime);
 
-        this.m_logger.info("ex_eval_mean:" + this.mean(evaluationMeanResults));
-
-        this.m_logger.info(">> Train episodes mean: " + Arrays.toString(trainMeanResults));
+        this.m_logger.info("Train episodes mean: " + Arrays.toString(trainMeanResults));
         double trainGlobalMean = this.mean(trainMeanResults);
-        this.m_logger.info(">> Train experiments mean: " + trainGlobalMean);
+        this.m_logger.info("Train experiments mean: " + trainGlobalMean);
 
         // this.m_logger.closeCurveDisplay();
 
