@@ -83,10 +83,12 @@ public class ExperimentManager {
         int trainEpisodes = 200000;
         int evaluationEpisodes = 10000;
         int evaluationInterval = 10000;
+        int maxSecondsForTrainSession = 60;
+        int loggingInterval = 100;
+
         double[] trainMeanResults = new double[trainEpisodes];
         double[] evaluationMeanResults = new double[evaluationEpisodes];
         long startTime = System.currentTimeMillis();
-        int loggingInterval = 100;
         double tempSum = 0;
 
         Arrays.fill(trainMeanResults, 0.0);
@@ -100,6 +102,8 @@ public class ExperimentManager {
 
             // train the agents
             double episodeResult = 0;
+            long sessionStartTime = System.currentTimeMillis();
+            double currentSessionDuration = 0;
             for (int ep = 0; ep < trainEpisodes; ep++) {
                 p.reset();
                 episodeResult = p.episode(true);
@@ -112,6 +116,9 @@ public class ExperimentManager {
                 tempSum += episodeResult;
 
                 if (((ep + 1) % evaluationInterval) == 0) {
+                    // hold session timer
+                    currentSessionDuration += System.currentTimeMillis() - sessionStartTime;
+
                     // evaluate performance
                     this.m_logger.info("-- Evaluation --");
                     double evaluationEpisodeResult = 0;
@@ -122,6 +129,14 @@ public class ExperimentManager {
                     }
                     this.m_logger.info("evaluation results: " + Arrays.toString(evaluationMeanResults));
                     this.m_logger.info("mean result: " + this.mean(evaluationMeanResults));
+
+                    // continue session timer
+                    sessionStartTime = System.currentTimeMillis();
+                }
+
+                if (currentSessionDuration+(System.currentTimeMillis()-sessionStartTime) > maxSecondsForTrainSession) {
+                    this.m_logger.error("session timeout");
+                    break;
                 }
             }
         }
