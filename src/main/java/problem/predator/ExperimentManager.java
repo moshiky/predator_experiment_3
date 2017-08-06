@@ -104,9 +104,20 @@ public class ExperimentManager {
             double episodeResult = 0;
             long sessionStartTime = System.currentTimeMillis();
             double currentSessionDuration = 0;
+
+            boolean isRewardShapingActive = true;
+            boolean isSimilaritiesActive = false;
+
             for (int ep = 0; ep < trainEpisodes; ep++) {
                 p.reset();
-                episodeResult = p.episode(true);    // <<<<<<<<<<<
+
+                // set speedup methods activation status
+                if (ep > trainEpisodes / 2.0) {
+                    isRewardShapingActive = false;
+                    isSimilaritiesActive = true;
+                }
+
+                episodeResult = p.episode(true, isRewardShapingActive, isSimilaritiesActive);
                 trainMeanResults[ep] = ((trainMeanResults[ep] * ex) + episodeResult) / (ex + 1.0);
 
                 if ((ep + 1) % loggingInterval == 0) {
@@ -124,7 +135,9 @@ public class ExperimentManager {
                     double evaluationEpisodeResult = 0;
                     for (int evalEp = 0; evalEp < evaluationEpisodes; evalEp++) {
                         p.reset();
-                        evaluationEpisodeResult = p.episode(false);
+                        // in evaluation mode there is no reason to activate either of the speedup methods
+                        evaluationEpisodeResult =
+                                p.episode(false, false, false);
                         evaluationMeanResults[evalEp] = evaluationEpisodeResult;
                     }
                     this.m_logger.info("evaluation results: " + Arrays.toString(evaluationMeanResults));
