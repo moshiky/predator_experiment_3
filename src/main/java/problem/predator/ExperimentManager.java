@@ -106,16 +106,16 @@ public class ExperimentManager {
             double currentSessionDuration = 0;
 
             boolean isRewardShapingActive = true;
-            boolean isSimilaritiesActive = false;
+            boolean isSimilaritiesActive = true;
 
             for (int ep = 0; ep < trainEpisodes; ep++) {
                 p.reset();
 
-                // set speedup methods activation status
-                if (ep > trainEpisodes / 2.0) {
-                    isRewardShapingActive = false;
-                    isSimilaritiesActive = true;
-                }
+//                // set speedup methods activation status
+//                if (ep > trainEpisodes / 2.0) {
+//                    isRewardShapingActive = false;
+//                    isSimilaritiesActive = true;
+//                }
 
                 episodeResult = p.episode(true, isRewardShapingActive, isSimilaritiesActive);
                 trainMeanResults[ep] = ((trainMeanResults[ep] * ex) + episodeResult) / (ex + 1.0);
