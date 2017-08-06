@@ -158,7 +158,7 @@ public class PredatorWorld extends Problem {
         //if the prey was caught, reward the predators with a 1
         for (int i = 0; i < aPredators.length; i++) {
             if (isGoalReached()) {
-                aPredators[i].reward(1, isTrainMode);
+                aPredators[i].reward(1, isTrainMode, activateRewardShaping, activateSimilarities);
             }
         }
         return iteration;
