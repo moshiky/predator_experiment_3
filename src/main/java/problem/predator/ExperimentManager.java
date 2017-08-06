@@ -106,7 +106,7 @@ public class ExperimentManager {
             double currentSessionDuration = 0;
             for (int ep = 0; ep < trainEpisodes; ep++) {
                 p.reset();
-                episodeResult = p.episode(true);
+                episodeResult = p.episode(true);    // <<<<<<<<<<<
                 trainMeanResults[ep] = ((trainMeanResults[ep] * ex) + episodeResult) / (ex + 1.0);
 
                 if ((ep + 1) % loggingInterval == 0) {
