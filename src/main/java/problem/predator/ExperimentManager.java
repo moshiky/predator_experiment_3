@@ -105,7 +105,6 @@ public class ExperimentManager {
             long sessionStartTime = System.currentTimeMillis();
             double currentSessionDuration = 0;
 
-            this.m_logger.info("Similarities disabled, RewardShaping enabled");
             for (int ep = 0; ep < trainEpisodes; ep++) {
                 predatorWorld.reset();
 
