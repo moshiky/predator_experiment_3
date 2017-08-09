@@ -82,7 +82,7 @@ public class ExperimentManager {
         int experiments = 50;
         int trainEpisodes = 200000;
         int evaluationEpisodes = 10000;
-        int evaluationInterval = 10000;
+        int trainBatchSize = 10000;
         int maxSecondsForTrainSession = 100 * 1000;
         int loggingInterval = 100;
 
@@ -105,6 +105,26 @@ public class ExperimentManager {
             long sessionStartTime = System.currentTimeMillis();
             double currentSessionDuration = 0;
 
+            for (int batchIndex = 0 ; batchIndex < trainEpisodes / trainBatchSize ; batchIndex++) {
+
+                // for agent type
+                    // duplicate current Q
+                    // initiate predator world with that Q and current agent type
+                    // run train batch
+                    for (int episodeIndexInBatch = 0 ; episodeIndexInBatch < trainBatchSize ; episodeIndexInBatch++) {
+
+                    }
+                    // compare modified Q and original Q and create the a diff list
+                    // store the diff list associated with the current agent type
+
+                // extract from all the diff lists the list of all keys
+                // create combined dictionary that for each key we select the minimum value for that key from all lists
+                // apply combined list changes to the original Q
+
+                // run evaluation session with default agent that just follows the policy and not learn
+
+            }
+
             for (int ep = 0; ep < trainEpisodes; ep++) {
                 predatorWorld.reset();
 
@@ -117,7 +137,7 @@ public class ExperimentManager {
                 }
                 tempSum += episodeResult;
 
-                if (((ep + 1) % evaluationInterval) == 0) {
+                if (((ep + 1) % trainBatchSize) == 0) {
                     // hold session timer
                     currentSessionDuration += System.currentTimeMillis() - sessionStartTime;
 
