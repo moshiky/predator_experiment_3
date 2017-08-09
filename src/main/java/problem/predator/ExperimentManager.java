@@ -95,7 +95,7 @@ public class ExperimentManager {
         Arrays.fill(evaluationMeanResults, 0.0);
 
         for (int ex = 0; ex < experiments; ex++) {
-            PredatorWorld p = new PredatorWorld(20, 2, agentType, objectives);
+            PredatorWorld predatorWorld = new PredatorWorld(20, 2, agentType, objectives);
             // this.m_logger.increaseRound();
             this.m_logger.info("=== Experiment #" + ex + " ===");
             tempSum = 0;
@@ -105,21 +105,11 @@ public class ExperimentManager {
             long sessionStartTime = System.currentTimeMillis();
             double currentSessionDuration = 0;
 
-            boolean isRewardShapingActive = true;
-            boolean isSimilaritiesActive = false;
-
             this.m_logger.info("Similarities disabled, RewardShaping enabled");
             for (int ep = 0; ep < trainEpisodes; ep++) {
-                p.reset();
+                predatorWorld.reset();
 
-                // set speedup methods activation status
-                if ((ep > trainEpisodes / 2.0) && (!isSimilaritiesActive)) {
-                    isRewardShapingActive = false;
-                    isSimilaritiesActive = true;
-                    this.m_logger.info("Similarities enabled, RewardShaping disabled");
-                }
-
-                episodeResult = p.episode(true, isRewardShapingActive, isSimilaritiesActive);
+                episodeResult = predatorWorld.episode(true);
                 trainMeanResults[ep] = ((trainMeanResults[ep] * ex) + episodeResult) / (ex + 1.0);
 
                 if ((ep + 1) % loggingInterval == 0) {
@@ -136,9 +126,9 @@ public class ExperimentManager {
                     this.m_logger.info("-- Evaluation --");
                     double evaluationEpisodeResult = 0;
                     for (int evalEp = 0; evalEp < evaluationEpisodes; evalEp++) {
-                        p.reset();
+                        predatorWorld.reset();
                         // in evaluation mode there is no reason to activate either of the speedup methods
-                        evaluationEpisodeResult = p.episode(false, false, false);
+                        evaluationEpisodeResult = predatorWorld.episode(false);
                         evaluationMeanResults[evalEp] = evaluationEpisodeResult;
                     }
                     this.m_logger.info("evaluation results: " + Arrays.toString(evaluationMeanResults));

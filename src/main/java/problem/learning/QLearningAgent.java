@@ -40,7 +40,7 @@ public abstract class QLearningAgent extends LearningAgent {
     }
 
     //Q(lambda) logic
-    public void reward(double reward, boolean isTrainMode, boolean activateRewardShaping, boolean activateSimilarities) {
+    public void reward(double reward, boolean isTrainMode) {
 
         // find best action
         double bestNextQValue = 0;
@@ -62,11 +62,9 @@ public abstract class QLearningAgent extends LearningAgent {
 
         if (isTrainMode) {
             // shape reward in case needed
-            if (activateRewardShaping) {
-                if (AgentType.RewardShaping == type || AgentType.SimilaritiesOnRewardShaping == type) {
-                    // r = R(s,a,s') + F(s,a,s')
-                    reward += this.m_shapingManager.getShapingReward(this.m_previousState, this.prevAction, currentState);
-                }
+            if (AgentType.RewardShaping == type || AgentType.SimilaritiesOnRewardShaping == type) {
+                // r = R(s,a,s') + F(s,a,s')
+                reward += this.m_shapingManager.getShapingReward(this.m_previousState, this.prevAction, currentState);
             }
 
             // calculate delta
@@ -80,20 +78,18 @@ public abstract class QLearningAgent extends LearningAgent {
 
 
             // update similar state-action pairs in case agent type is Similarities
-            if (activateSimilarities) {
-                if (AgentType.Similarities == type || AgentType.SimilaritiesOnRewardShaping == type) {
-                    ArrayList<SimilarityRecord> similarityRecords =
-                            SimilarityManager.getSimilarityRecords(this.m_previousState, prevAction);
+            if (AgentType.Similarities == type || AgentType.SimilaritiesOnRewardShaping == type) {
+                ArrayList<SimilarityRecord> similarityRecords =
+                        SimilarityManager.getSimilarityRecords(this.m_previousState, prevAction);
 
-                    // update all relevant state-action records in the Q table
-                    for (SimilarityRecord record : similarityRecords) {
-                        previousQValue = this.m_qTable.getKeyValue(record.getState(), record.getAction());
-                        this.m_qTable.setKeyValue(
-                                record.getState(),
-                                record.getAction(),
-                                previousQValue + alpha * delta * record.getSimilarityFactor()
-                        );
-                    }
+                // update all relevant state-action records in the Q table
+                for (SimilarityRecord record : similarityRecords) {
+                    previousQValue = this.m_qTable.getKeyValue(record.getState(), record.getAction());
+                    this.m_qTable.setKeyValue(
+                            record.getState(),
+                            record.getAction(),
+                            previousQValue + alpha * delta * record.getSimilarityFactor()
+                    );
                 }
             }
         }
