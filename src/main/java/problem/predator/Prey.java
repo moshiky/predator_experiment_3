@@ -18,7 +18,7 @@ public class Prey extends Animal {
     protected PredatorWorld pw;
 
     public Prey(PredatorWorld pw, int size, int x, int y) {
-        super(pw, AgentType.NoShaping, new int[]{0}, x, y);
+        super(pw, AgentType.NoShaping, new int[]{0}, x, y, null);
         this.size = size;
         this.pw = pw;
     }
