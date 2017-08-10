@@ -5,6 +5,7 @@
 package problem.predator;
 
 import problem.learning.AgentType;
+import problem.learning.IQTable;
 import problem.learning.QLearningAgent;
 
 /**
@@ -15,8 +16,8 @@ public abstract class Animal extends QLearningAgent {
     public int x;
     public int y;
 
-    public Animal(PredatorWorld pw, AgentType type, int[] objectives, int x, int y) {
-        super(pw, type, objectives);
+    public Animal(PredatorWorld pw, AgentType type, int[] objectives, int x, int y, IQTable qTable) {
+        super(pw, type, objectives, qTable);
         this.predator = false;
         this.x = x;
         this.y = y;

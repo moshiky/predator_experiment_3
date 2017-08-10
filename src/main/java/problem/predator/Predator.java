@@ -5,6 +5,7 @@
 package problem.predator;
 
 import problem.learning.AgentType;
+import problem.learning.IQTable;
 
 /**
  * @author timbrys
@@ -14,8 +15,8 @@ public class Predator extends Animal {
     private PredatorWorld pw;
     private int size;
 
-    public Predator(PredatorWorld pw, AgentType type, int[] objectives, int size, int x, int y) {
-        super(pw, type, objectives, x, y);
+    public Predator(PredatorWorld pw, AgentType type, int[] objectives, int size, int x, int y, IQTable qTable) {
+        super(pw, type, objectives, x, y, qTable);
         predator = true;
         this.size = size;
         this.pw = pw;

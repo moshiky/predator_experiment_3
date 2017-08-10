@@ -8,6 +8,7 @@ import java.util.Arrays;
 
 import problem.RNG;
 import problem.learning.AgentType;
+import problem.learning.DoubleHashTable;
 import problem.learning.Problem;
 
 /**
@@ -19,10 +20,12 @@ public class PredatorWorld extends Problem {
     private Animal[][] map;
     private Animal[] aPredators;
     private Animal[] aPreys;
+    private int[] m_objectives ;
 
     public PredatorWorld(int size, int nrPredators, AgentType type, int[] objectives) {
         this.size = size;
         this.nrPredators = nrPredators;
+        this.m_objectives = objectives;
 
         this.map = new Animal[size][size];
 
@@ -39,7 +42,7 @@ public class PredatorWorld extends Problem {
             }
             Animal a;
             do {
-                a = new Predator(this, type, objectives, size, RNG.randomInt(size), RNG.randomInt(size));
+                a = new Predator(this, type, objectives, size, RNG.randomInt(size), RNG.randomInt(size), null);
             } while (occupied(a));
             this.aPredators[i] = a;
             this.map[a.y][a.x] = a;
@@ -50,7 +53,7 @@ public class PredatorWorld extends Problem {
         return size;
     }
 
-    //reinitializes the world, randomly placing the predators and prey
+    // reinitialize the world, randomly placing the predators and prey
     public void reset() {
         this.map = new Animal[size][size];
         for (int i = 0; i < nrPredators; i++) {
@@ -209,4 +212,21 @@ public class PredatorWorld extends Problem {
 
     public Animal[][] getMap() { return map; }
 
+    /**
+     * NOTICE: this method is hardcoded for 2 predators case!!
+     */
+    public void initiatePredators(AgentType agentType, DoubleHashTable tableForPredator1,
+                                  DoubleHashTable tableForPredator2)
+    {
+        DoubleHashTable[] tables = new DoubleHashTable[]{tableForPredator1, tableForPredator2};
+
+        for (int i = 0 ; i < 2 ; i++) {
+            Animal newPredator;
+            do {
+                newPredator = new Predator(this, agentType, this.m_objectives, this.size,
+                        RNG.randomInt(this.size), RNG.randomInt(this.size), tables[i]);
+            } while (occupied(newPredator));
+            this.aPredators[i] = newPredator;
+        }
+    }
 }

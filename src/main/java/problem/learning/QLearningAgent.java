@@ -20,13 +20,21 @@ public abstract class QLearningAgent extends LearningAgent {
     private IQTable m_qTable;
 
     public QLearningAgent(Problem prob, AgentType type, int[] objectivesToUse) {
+        this(prob, type, objectivesToUse, null);
+    }
+
+    public QLearningAgent(Problem prob, AgentType type, int[] objectivesToUse, IQTable qTable) {
         super(prob, type, objectivesToUse);
 
-        if (AgentType.Abstraction == type || AgentType.BasicQLearningAbstraction == type) {
-            this.m_qTable = new AvlTreeBasedQTable();
+        if (qTable == null) {
+            if (AgentType.Abstraction == type || AgentType.BasicQLearningAbstraction == type) {
+                this.m_qTable = new AvlTreeBasedQTable();
+            } else {
+                this.m_qTable = new DoubleHashTable(11567205);
+            }
         }
         else {
-            this.m_qTable = new DoubleHashTable(11567205);
+            this.m_qTable = qTable;
         }
 
         if (AgentType.RewardShaping == type || AgentType.SimilaritiesOnRewardShaping == type) {
