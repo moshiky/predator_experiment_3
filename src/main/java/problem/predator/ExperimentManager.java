@@ -148,10 +148,10 @@ public class ExperimentManager {
                     sessionStartTime = System.currentTimeMillis();
                 }
 
-                if (currentSessionDuration+(System.currentTimeMillis()-sessionStartTime) > maxSecondsForTrainSession) {
-                    this.m_logger.error("session timeout");
-                    break;
-                }
+//                if (currentSessionDuration+(System.currentTimeMillis()-sessionStartTime) > maxSecondsForTrainSession) {
+//                    this.m_logger.error("session timeout");
+//                    break;
+//                }
             }
         }
 
